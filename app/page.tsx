@@ -202,6 +202,8 @@ export default function Home() {
       <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       
       <main>
+        {/* Hidden SEO Content for Better Ranking */}
+        <h1 className="sr-only">Steiny B&apos;s - Best Halal Burgers and Nashville Hot Chicken in Brooklyn NYC</h1>
         <HeroSection scaleProgress={scaleProgress} opacityProgress={opacityProgress} activeSection={activeSection} />
         <AboutSection />
         <MenuSection />
@@ -686,19 +688,10 @@ function AboutSection() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
                   
                   <div className="relative bg-white p-4 md:p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full border border-gray-100 group-hover:border-transparent">
-                    {/* Floating icon */}
-                    <motion.div
-                      animate={{ y: [0, -8, 0] }}
-                      transition={{ 
-                        duration: 3,
-                        repeat: Infinity,
-                        delay: index * 0.5,
-                        ease: "easeInOut"
-                      }}
-                      className="text-4xl md:text-6xl mb-3 md:mb-6 flex justify-center"
-                    >
+                    {/* Static icon */}
+                    <div className="text-4xl md:text-6xl mb-3 md:mb-6 flex justify-center">
                       {feature.icon}
-                    </motion.div>
+                    </div>
                     
                     {/* Content */}
                     <div className="text-center space-y-2">
@@ -761,7 +754,7 @@ function MenuSection() {
         {
           name: "Cheese Burger",
           price: "$6.97",
-          description: "Classic perfection with melted cheese",
+          description: "100% fresh beef burger served with American cheese, grilled onions, pickles and house sauce on a potato bun",
           image: currentImages.burgers.cheeseBurger,
           imageType: "photo",
           popular: false,
@@ -769,7 +762,7 @@ function MenuSection() {
         {
           name: "Double Cheese Burger",
           price: "$9.97",
-          description: "Double the patty, double the flavor",
+          description: "100% fresh beef burger served with American cheese, grilled onions, pickles and house sauce on a potato bun",
           image: currentImages.burgers.doubleCheeseBurger,
           imageType: "photo",
           popular: true,
@@ -777,7 +770,7 @@ function MenuSection() {
         {
           name: "Jalapeño Cheese Burger",
           price: "$8.47",
-          description: "Spicy kick with fresh jalapeños",
+          description: "100% fresh beef burger served with pepper jack cheese, grilled onions, pickles and jalapeño cream sauce on a potato bun",
           addon: "Make it a double - $11.47",
           image: currentImages.burgers.jalapenoCheeseBurger,
           imageType: "photo",
@@ -791,7 +784,8 @@ function MenuSection() {
         {
           name: "Nashville Hot Chicken Sandwich",
           price: "$9.97",
-          description: "Choose your heat: Mild, Medium, Hot, Extra Hot",
+          description: "Hand breaded chicken breast, pickles, white American cheese, coleslaw, house sauce, served on a brioche bun",
+          addon: "Mild, Medium, Hot, Extra Hot",
           image: currentImages.chicken.nashvilleHot,
           imageType: "photo",
           popular: false,
@@ -800,14 +794,14 @@ function MenuSection() {
         {
           name: "Buffalo Ranch Chicken Sandwich",
           price: "$9.97",
-          description: "Tangy buffalo sauce with cool ranch",
+          description: "Hand breaded chicken breast, pickles, American cheese, house sauce, served on a brioche bun",
           image: currentImages.chicken.buffaloRanch,
           imageType: "photo",
         },
         {
           name: "Sweet Chili Chicken Sandwich",
           price: "$9.97",
-          description: "Sweet and spicy Asian-inspired flavors",
+          description: "Hand breaded chicken breast, pickles, American cheese, sriracha mayo sauce, sesame seeds, scallion served on a brioche bun",
           image: currentImages.chicken.sweetChili,
           imageType: "photo",
         },
@@ -820,21 +814,22 @@ function MenuSection() {
           name: "Fries",
           price: "$4.47",
           description: "Crispy golden perfection",
+          addon: "Add Spice 49¢",
           image: currentImages.sides.fries,
           imageType: "photo",
           popular: true,
         },
         {
           name: "Loaded Beef Fries",
-          price: "$11.49",
-          description: "Fries topped with seasoned beef",
+          price: "$11.47",
+          description: "Two beef patties chopped up with shredded American cheese, crispy onions, jalapeños served on fries",
           image: currentImages.sides.loadedBeefFries,
           imageType: "photo",
         },
         {
           name: "Loaded Hot Chicken Fries",
-          price: "$11.49",
-          description: "Fries with spicy chicken chunks",
+          price: "$11.47",
+          description: "Two hand breaded chicken tenders chopped up with shredded white American cheese, crispy onions, jalapeños, and coleslaw served on fries",
           image: currentImages.sides.loadedChickenFries,
           imageType: "photo",
           spicy: true,
@@ -842,15 +837,23 @@ function MenuSection() {
         {
           name: "3 Hot Tenders",
           price: "$7.49",
-          description: "Choose your heat level",
+          description: "With Texas Toast",
+          addon: "Mild, Medium, Hot, Extra Hot",
           image: currentImages.sides.tenders,
           imageType: "photo",
         },
         {
           name: "Butter Milk Biscuit",
-          price: "$2.97",
+          price: "$2.47",
           description: "Fluffy and buttery",
           image: currentImages.sides.biscuit,
+          imageType: "photo",
+        },
+        {
+          name: "Sauce",
+          price: "49¢",
+          description: "Extra sauce for your meal",
+          image: currentImages.sides.fries,
           imageType: "photo",
         },
       ],
@@ -859,9 +862,9 @@ function MenuSection() {
       icon: "🥤",
       items: [
         {
-          name: "Soft Drinks",
-          price: "$1.95",
-          description: "Coca Cola, Dr Pepper, Sprite, 7Up, Fanta",
+          name: "Drinks",
+          price: "$1.75",
+          description: "Coca Cola, Coke, Dr Pepper, Sprite, 7Up, Fanta",
           image: currentImages.drinks.softDrinks,
           imageType: "photo",
         },
@@ -881,16 +884,9 @@ function MenuSection() {
           imageType: "photo",
         },
         {
-          name: "Strawberry Milkshake",
+          name: "Cookies N' Cream Milkshake",
           price: "$9.49",
-          description: "Fresh strawberry bliss",
-          image: currentImages.drinks.strawberryShake,
-          imageType: "photo",
-        },
-        {
-          name: "Oreo Milkshake",
-          price: "$9.49",
-          description: "Cookies and cream heaven",
+          description: "Oreo cookies blended to perfection",
           image: currentImages.drinks.oreoShake,
           imageType: "photo",
         },
@@ -1043,7 +1039,7 @@ function MenuSection() {
                   MAKE IT A <span className="text-brand-green">COMBO</span>
                 </h3>
                 <p className="text-xl mb-6 text-gray-700 font-medium">
-                  Add crispy fries & refreshing drink to any burger or sandwich
+                  Make any item a combo with fries and a drink
                 </p>
                 
                 <div className="inline-flex items-baseline gap-1 text-gray-800">

@@ -1,0 +1,26 @@
+{
+  "name": "Steiny B's - Halal Burgers & Nashville Hot Chicken",
+  "short_name": "Steiny B's",
+  "description": "NYC's best halal smashburgers & Nashville hot chicken. Fresh, never frozen, 100% halal certified.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#006838",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://general-public-image-buckets.s3.amazonaws.com/steiny/images/burgers/cheese-burger.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://general-public-image-buckets.s3.amazonaws.com/steiny/images/burgers/cheese-burger.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "restaurant"],
+  "lang": "en-US"
+}
