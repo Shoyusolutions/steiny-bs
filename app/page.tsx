@@ -10,7 +10,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { 
   Flame, MapPin, Clock, Phone, ChevronDown, Menu, X, 
   Star, TrendingUp, Award, Zap, ShoppingBag, ArrowRight,
-  Instagram, Facebook, Twitter
+  Instagram
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Loading from "@/components/Loading";
@@ -1429,10 +1429,13 @@ function ContactSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <motion.button
+            <motion.a
+              href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group px-8 py-4 rounded-full text-lg font-bold shadow-2xl hover:shadow-3xl transition-all flex items-center justify-center gap-2"
+              className="group inline-flex px-8 py-4 rounded-full text-lg font-bold shadow-2xl hover:shadow-3xl transition-all items-center justify-center gap-2"
               style={{ backgroundColor: '#006838', color: 'white' }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#004526'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#006838'}
@@ -1440,11 +1443,14 @@ function ContactSection() {
               <ShoppingBag className="w-5 h-5" />
               ORDER FOR PICKUP
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-            <motion.button
+            </motion.a>
+            <motion.a
+              href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group px-8 py-4 rounded-full text-lg font-bold shadow-2xl hover:shadow-3xl transition-all flex items-center justify-center gap-2"
+              className="group inline-flex px-8 py-4 rounded-full text-lg font-bold shadow-2xl hover:shadow-3xl transition-all items-center justify-center gap-2"
               style={{ backgroundColor: '#006838', color: 'white' }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#004526'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#006838'}
@@ -1452,22 +1458,21 @@ function ContactSection() {
               <Zap className="w-5 h-5" />
               ORDER FOR DELIVERY
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            </motion.a>
           </div>
 
           {/* Social Links */}
           <div className="flex justify-center gap-6">
-            {[Instagram, Facebook, Twitter].map((Icon, index) => (
-              <motion.a
-                key={index}
-                href="#"
-                whileHover={{ scale: 1.2, rotate: 360 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-              >
-                <Icon className="w-6 h-6 text-gray-700" />
-              </motion.a>
-            ))}
+            <motion.a
+              href="https://www.instagram.com/steiny.bs/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2, rotate: 360 }}
+              whileTap={{ scale: 0.9 }}
+              className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+            >
+              <Instagram className="w-6 h-6 text-gray-700" />
+            </motion.a>
           </div>
         </motion.div>
       </div>
