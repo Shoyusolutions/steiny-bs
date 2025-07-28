@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, X, Check, Image, Film, Loader2 } from "lucide-react";
+import { Upload, X, Check, Image, Film, Loader2, Crop } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ReactCrop, { Crop as CropType, PixelCrop, centerCrop, makeAspectCrop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 type UploadCategory = {
   path: string;
@@ -101,6 +103,17 @@ const uploadCategories: Record<string, UploadCategory> = {
       { fileName: "lionel-sternberger", label: "Lionel Sternberger Photo" },
     ],
   },
+  "images/natural-shots-1x1": {
+    path: "images/natural-shots-1x1",
+    label: "Natural Shots 1:1",
+    items: [
+      { fileName: "natural-shot-1", label: "Natural Shot 1" },
+      { fileName: "natural-shot-2", label: "Natural Shot 2" },
+      { fileName: "natural-shot-3", label: "Natural Shot 3" },
+      { fileName: "natural-shot-4", label: "Natural Shot 4" },
+      { fileName: "natural-shot-5", label: "Natural Shot 5" },
+    ],
+  },
   "videos": {
     path: "videos",
     label: "Videos",
@@ -119,6 +132,12 @@ export default function UploadPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadedItems, setUploadedItems] = useState<Set<string>>(new Set());
   const [dragActive, setDragActive] = useState(false);
+  const [crop, setCrop] = useState<CropType>();
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const [croppedImageUrl, setCroppedImageUrl] = useState<string>("");
+  const [converting, setConverting] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -140,17 +159,111 @@ export default function UploadPage() {
     }
   }, []);
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     console.log("File selected:", file.name);
-    setFile(file);
+    setCroppedImageUrl("");
+    setCompletedCrop(undefined);
     
-    // Create preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    // Check if file is HEIC
+    if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic')) {
+      setConverting(true);
+      try {
+        // Dynamically import heic2any to avoid SSR issues
+        const heic2any = (await import('heic2any')).default;
+        
+        // Convert HEIC to JPEG
+        const convertedBlob = await heic2any({
+          blob: file,
+          toType: 'image/jpeg',
+          quality: 0.9
+        }) as Blob;
+        
+        // Create a new File from the converted blob
+        const convertedFile = new File([convertedBlob], file.name.replace(/\.heic$/i, '.jpg'), {
+          type: 'image/jpeg'
+        });
+        
+        setFile(convertedFile);
+        
+        // Create preview from converted file
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreview(reader.result as string);
+          setConverting(false);
+        };
+        reader.readAsDataURL(convertedBlob);
+      } catch (error) {
+        console.error('Error converting HEIC:', error);
+        alert('Error converting HEIC file. Please try a different image.');
+        setConverting(false);
+      }
+    } else {
+      setFile(file);
+      // Create preview for non-HEIC files
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
+  function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+    if (selectedCategory === "images/natural-shots-1x1") {
+      const { width, height } = e.currentTarget;
+      const crop = centerCrop(
+        makeAspectCrop(
+          {
+            unit: '%',
+            width: 90,
+          },
+          1,
+          width,
+          height
+        ),
+        width,
+        height
+      );
+      setCrop(crop);
+    }
+  }
+
+  async function generateCroppedImage() {
+    if (!completedCrop || !imgRef.current || !previewCanvasRef.current) {
+      return;
+    }
+
+    const image = imgRef.current;
+    const canvas = previewCanvasRef.current;
+    const crop = completedCrop;
+
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) return;
+
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise<Blob>((resolve) => {
+      canvas.toBlob((blob) => {
+        if (blob) resolve(blob);
+      }, 'image/jpeg', 0.95);
+    });
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -163,7 +276,21 @@ export default function UploadPage() {
 
     setUploading(true);
     const formData = new FormData();
-    formData.append("file", file);
+    
+    // For Natural Shots 1:1, upload the cropped image
+    if (selectedCategory === "images/natural-shots-1x1" && completedCrop) {
+      const croppedBlob = await generateCroppedImage();
+      if (croppedBlob) {
+        formData.append("file", croppedBlob, file.name);
+      } else {
+        alert("Please crop the image before uploading");
+        setUploading(false);
+        return;
+      }
+    } else {
+      formData.append("file", file);
+    }
+    
     formData.append("category", selectedCategory);
     formData.append("fileName", selectedItem);
 
@@ -179,13 +306,16 @@ export default function UploadPage() {
         setUploadedItems(new Set([...uploadedItems, `${selectedCategory}/${selectedItem}`]));
         setFile(null);
         setPreview("");
+        setCroppedImageUrl("");
+        setCompletedCrop(undefined);
+        setCrop(undefined);
         setSelectedItem("");
         alert(`Upload successful! File available at: ${data.url}`);
       } else {
         alert("Upload failed: " + data.error);
       }
     } catch (error) {
-      alert("Upload error: " + error.message);
+      alert("Upload error: " + (error as Error).message);
     } finally {
       setUploading(false);
     }
@@ -219,6 +349,10 @@ export default function UploadPage() {
                     setSelectedItem("");
                     setFile(null);
                     setPreview("");
+                    setCrop(undefined);
+                    setCompletedCrop(undefined);
+                    setCroppedImageUrl("");
+                    setConverting(false);
                   }}
                   className={cn(
                     "px-4 py-3 rounded-lg font-medium transition-all",
@@ -286,11 +420,45 @@ export default function UploadPage() {
                     : "border-gray-300 hover:border-gray-400"
                 )}
               >
-                {preview ? (
+                {converting ? (
+                  <div className="py-16">
+                    <Loader2 className="w-12 h-12 text-brand-green animate-spin mx-auto mb-4" />
+                    <p className="text-gray-600">Converting HEIC image...</p>
+                  </div>
+                ) : preview ? (
                   <div className="relative">
                     {selectedCategory === "videos" ? (
                       <div className="bg-gray-100 rounded-lg p-8 flex items-center justify-center">
                         <Film className="w-24 h-24 text-gray-400" />
+                      </div>
+                    ) : selectedCategory === "images/natural-shots-1x1" ? (
+                      <div className="space-y-4">
+                        <ReactCrop
+                          crop={crop}
+                          onChange={(_, percentCrop) => setCrop(percentCrop)}
+                          onComplete={(c) => setCompletedCrop(c)}
+                          aspect={1}
+                          className="max-w-full"
+                        >
+                          <img
+                            ref={imgRef}
+                            src={preview}
+                            alt="Crop preview"
+                            onLoad={onImageLoad}
+                            className="max-h-96 mx-auto"
+                          />
+                        </ReactCrop>
+                        <canvas
+                          ref={previewCanvasRef}
+                          style={{ display: 'none' }}
+                        />
+                        <div className="text-center">
+                          <p className="text-sm text-gray-600 mb-2">Drag to adjust the square crop area</p>
+                          <div className="flex items-center justify-center gap-2 text-brand-green">
+                            <Crop className="w-4 h-4" />
+                            <span className="text-sm font-medium">1:1 Square Crop</span>
+                          </div>
+                        </div>
                       </div>
                     ) : (
                       <img
@@ -303,6 +471,10 @@ export default function UploadPage() {
                       onClick={() => {
                         setFile(null);
                         setPreview("");
+                        setCrop(undefined);
+                        setCompletedCrop(undefined);
+                        setCroppedImageUrl("");
+                        setConverting(false);
                       }}
                       className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
                     >
@@ -319,7 +491,7 @@ export default function UploadPage() {
                     <input
                       type="file"
                       onChange={handleFileChange}
-                      accept={selectedCategory === "videos" ? "video/*" : "image/*"}
+                      accept={selectedCategory === "videos" ? "video/*" : "image/*,.heic,.heif"}
                       className="hidden"
                       id="file-input"
                     />

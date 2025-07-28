@@ -27,7 +27,7 @@ export const images = {
   },
   drinks: {
     softDrinks: `${S3_BASE_URL}/steiny/images/drinks/soft-drinks.png`,
-    vanillaShake: `${S3_BASE_URL}/steiny/images/drinks/vanilla-shake.png`,
+    vanillaShake: `https://general-public-image-buckets.s3.amazonaws.com/steiny/images/drinks/vanilla-shake.png`,
     nutellaShake: `${S3_BASE_URL}/steiny/images/drinks/nutella-shake.png`,
     strawberryShake: `${S3_BASE_URL}/steiny/images/drinks/strawberry-shake.png`,
     oreoShake: `${S3_BASE_URL}/steiny/images/drinks/oreo-shake.png`,

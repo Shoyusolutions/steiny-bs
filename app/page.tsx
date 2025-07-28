@@ -17,14 +17,19 @@ import Loading from "@/components/Loading";
 import { currentImages } from "@/lib/images";
 
 function MobileCarousel({ menuItems }: { menuItems: any[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   
-  // Duplicate items for infinite scroll effect - need 4 sets for seamless loop
-  const duplicatedItems = [...menuItems, ...menuItems, ...menuItems, ...menuItems];
+  // Show only burger, chicken, and shake on mobile
+  const mobileItems = [
+    menuItems[1], // Cheese Burger
+    menuItems[0], // Buffalo Ranch
+    menuItems[2], // Nutella Shake
+  ];
   
   // Preload all images
   useEffect(() => {
-    const imagePromises = menuItems.map((item) => {
+    const imagePromises = mobileItems.map((item) => {
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.src = item.image;
@@ -36,57 +41,56 @@ function MobileCarousel({ menuItems }: { menuItems: any[] }) {
     Promise.all(imagePromises).then(() => {
       setImagesLoaded(true);
     });
-  }, [menuItems]);
+  }, []);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % mobileItems.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [mobileItems.length]);
   
   return (
-    <div className="relative w-full h-[45vh] overflow-visible flex items-center">
+    <div className="relative w-full h-[50vh] overflow-hidden flex items-center justify-center">
       {!imagesLoaded ? (
         <div className="flex items-center justify-center w-full">
           <div className="w-16 h-16 border-4 border-brand-green border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <motion.div
-          className="flex gap-[-8rem]"
-          animate={{
-            x: ["0%", "-75%"],
-          }}
-          transition={{
-            x: {
-              duration: menuItems.length * 45.5, // 45.5 seconds per item (30% slower)
-              repeat: Infinity,
-              ease: "linear",
-              repeatType: "loop",
-              repeatDelay: 0,
-            },
-          }}
-        >
-          {duplicatedItems.map((item, index) => (
-            <motion.div
-              key={`${item.name}-${index}`}
-              className="flex-shrink-0 w-[85vw] flex items-center justify-center"
-              animate={{
-                y: [0, -20, 0],
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, scale: 0.8, x: 100 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.8, x: -100 }}
+            transition={{ duration: 0.5, type: "spring" }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <img 
+              src={mobileItems[currentIndex].image}
+              alt={mobileItems[currentIndex].name}
+              className="w-[90vw] h-[90vw] max-w-[500px] max-h-[500px] object-contain"
+              style={{ 
+                filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3))'
               }}
-              transition={{
-                y: {
-                  duration: 3 + (index % menuItems.length) * 0.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }
-              }}
-            >
-              <img 
-                src={item.image}
-                alt={item.name}
-                className="w-[125vw] h-[125vw] max-w-[800px] max-h-[800px] object-contain"
-                style={{ 
-                  filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2))',
-                  transform: item.name === 'Hot Tenders' ? 'translateY(-40px)' : 'translateY(0)'
-                }}
-              />
-            </motion.div>
+            />
+          </motion.div>
+        </AnimatePresence>
+      )}
+      
+      {/* Dots indicator */}
+      {imagesLoaded && (
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+          {mobileItems.map((_, index) => (
+            <div
+              key={index}
+              className={cn(
+                "w-2 h-2 rounded-full transition-all duration-300",
+                index === currentIndex ? "bg-brand-green w-6" : "bg-gray-300"
+              )}
+            />
           ))}
-        </motion.div>
+        </div>
       )}
     </div>
   );
@@ -102,7 +106,7 @@ function SwipeToOrder() {
     if (info.offset.x > 200) {
       setIsCompleted(true);
       // Navigate to google.com
-      window.location.href = 'https://google.com';
+      window.location.href = 'https://www.clover.com/online-ordering/steiny-bs-brooklyn';
     }
   };
   
@@ -118,16 +122,16 @@ function SwipeToOrder() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-      className="relative w-full h-16 bg-gray-200 rounded-full overflow-hidden"
+      className="relative w-full h-14 bg-brand-green/10 rounded-full overflow-hidden border-2 border-brand-green/20"
     >
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.span 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
-          className="text-gray-600 font-semibold"
+          className="text-brand-green text-sm font-bold uppercase tracking-wider"
         >
-          Swipe to Order
+          SWIPE TO ORDER
         </motion.span>
       </div>
       
@@ -140,7 +144,7 @@ function SwipeToOrder() {
         onDragEnd={handleDragEnd}
         animate={{ x: isCompleted ? 240 : 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="absolute left-0 top-0 h-full w-16 bg-brand-green rounded-full cursor-grab active:cursor-grabbing flex items-center justify-center shadow-lg"
+        className="absolute left-0 top-0 h-full w-14 bg-brand-green rounded-full cursor-grab active:cursor-grabbing flex items-center justify-center shadow-lg"
         style={{
           background: isCompleted ? '#008947' : '#006738',
         }}
@@ -148,7 +152,7 @@ function SwipeToOrder() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <ChevronDown className="w-6 h-6 text-white rotate-[-90deg]" />
+        <ChevronDown className="w-5 h-5 text-white rotate-[-90deg]" />
       </motion.div>
       
       {/* Progress bar removed */}
@@ -204,7 +208,7 @@ export default function Home() {
       <main>
         {/* Hidden SEO Content for Better Ranking */}
         <h1 className="sr-only">Steiny B&apos;s - Best Halal Burgers and Nashville Hot Chicken in Brooklyn NYC</h1>
-        <HeroSection scaleProgress={scaleProgress} opacityProgress={opacityProgress} activeSection={activeSection} />
+        <HeroSection />
         <AboutSection />
         <MenuSection />
         <LocationSection />
@@ -220,70 +224,108 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
   const [isScrolled, setIsScrolled] = useState(false);
   
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > window.innerHeight - 100);
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      {/* Mobile menu button - always visible */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 text-brand-green p-2 bg-white rounded-full shadow-lg"
-      >
-        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-      </motion.button>
-      
-      {/* Desktop nav - only visible when scrolled */}
-      {isScrolled && (
-        <motion.nav
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ type: "spring", stiffness: 100 }}
-          className="hidden md:block fixed top-0 w-full z-40 navbar-blur shadow-lg py-2 sm:py-3"
-        >
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center items-center">
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {["home", "about", "menu", "location", "contact"].map((item) => (
-              <motion.a
-                key={item}
-                href={`#${item}`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className={cn(
-                  "font-medium transition-colors capitalize",
-                  activeSection === item 
-                    ? "text-brand-green" 
-                    : "text-gray-700 hover:text-brand-green"
-                )}
-              >
-                {item}
-              </motion.a>
-            ))}
-            {isScrolled && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all"
-                style={{ backgroundColor: '#006738' }}
-              >
-                Order Now
-              </motion.button>
-            )}
+      {/* Desktop Navigation - Always visible */}
+      <nav className={cn(
+        "hidden md:block fixed top-0 w-full z-40 transition-all duration-300",
+        isScrolled ? "bg-white shadow-lg py-3" : "bg-transparent py-6"
+      )}>
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            {/* Logo on left */}
+            <a href="#home" className="flex-shrink-0">
+              <img 
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/branding/logo-primary.jpeg"
+                alt="Steiny B's Logo"
+                className="h-12 lg:h-14 w-auto"
+              />
+            </a>
+            
+            {/* Menu in center */}
+            <div className="flex items-center gap-6 lg:gap-8">
+              {["home", "about", "menu", "location", "contact"].map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={cn(
+                    "font-bold transition-colors uppercase tracking-wider",
+                    activeSection === item 
+                      ? "text-brand-green" 
+                      : "text-gray-700 hover:text-brand-green"
+                  )}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            
+            {/* Order button on right */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all"
+              style={{ backgroundColor: '#006738' }}
+            >
+              ORDER ONLINE
+            </motion.button>
           </div>
         </div>
+      </nav>
+      
+      {/* Mobile Header */}
+      <div className={cn(
+        "md:hidden fixed top-0 left-0 right-0 z-40 transition-all duration-300",
+        isScrolled ? "bg-white shadow-lg" : "bg-gradient-to-b from-white/90 to-transparent"
+      )}>
+        <div className="flex items-center justify-between p-4">
+          {/* Logo on left */}
+          <a href="#home" className="flex-shrink-0">
+            <img 
+              src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/branding/logo-primary.jpeg"
+              alt="Steiny B's Logo"
+              className="h-10 w-auto"
+            />
+          </a>
+          
+          {/* Order button when scrolled */}
+          {isScrolled && (
+            <motion.a
+              href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="px-6 py-2 rounded-full text-sm font-bold text-white shadow-lg"
+              style={{ backgroundColor: '#006738' }}
+            >
+              ORDER NOW
+            </motion.a>
+          )}
+          
+          {/* Menu button on right */}
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 rounded-full transition-colors"
+            style={{ 
+              backgroundColor: isMenuOpen ? '#006738' : 'transparent',
+              border: `2px solid ${isMenuOpen ? '#006738' : '#006738'}`
+            }}
+          >
+            {isMenuOpen ? <X size={24} className="text-white" /> : <Menu size={24} className="text-brand-green" />}
+          </motion.button>
+        </div>
       </div>
-    </motion.nav>
-      )}
     </>
   );
 }
@@ -293,11 +335,11 @@ function MobileMenu({ isOpen, setIsOpen }: any) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ x: "-100%" }}
+          initial={{ x: "100%" }}
           animate={{ x: 0 }}
-          exit={{ x: "-100%" }}
+          exit={{ x: "100%" }}
           transition={{ type: "spring", damping: 20 }}
-          className="fixed inset-y-0 left-0 w-full max-w-sm bg-white z-50 shadow-2xl md:hidden"
+          className="fixed inset-y-0 right-0 w-full max-w-sm bg-white z-50 shadow-2xl md:hidden"
         >
           <div className="p-6 pt-20">
             {/* Close button */}
@@ -321,19 +363,22 @@ function MobileMenu({ isOpen, setIsOpen }: any) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setIsOpen(false)}
-                  className="text-2xl font-bold text-gray-800 hover:text-brand-green transition-colors capitalize"
+                  className="text-2xl font-bold text-gray-800 hover:text-brand-green transition-colors uppercase tracking-wider"
                 >
                   {item}
                 </motion.a>
               ))}
-              <motion.button
+              <motion.a
+                href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="bg-brand-green text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-dark transition-colors mt-4"
+                className="inline-block bg-brand-green text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-dark transition-colors mt-4 uppercase tracking-wider"
               >
-                Order Now
-              </motion.button>
+                ORDER NOW
+              </motion.a>
             </div>
           </div>
         </motion.div>
@@ -342,245 +387,309 @@ function MobileMenu({ isOpen, setIsOpen }: any) {
   );
 }
 
-function HeroSection({ scaleProgress, opacityProgress, activeSection }: any) {
+function HeroSection() {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
   
-  const [hideSwipeButton, setHideSwipeButton] = useState(false);
-  
-  useEffect(() => {
-    const checkSectionVisibility = () => {
-      const contactSection = document.getElementById('contact');
-      const menuSection = document.getElementById('menu');
-      
-      if (contactSection && menuSection) {
-        const contactRect = contactSection.getBoundingClientRect();
-        const menuRect = menuSection.getBoundingClientRect();
-        
-        // Hide button if contact section OR menu section is visible in viewport
-        const hideForContact = contactRect.top < window.innerHeight && contactRect.bottom > 0;
-        const hideForMenu = menuRect.top < window.innerHeight && menuRect.bottom > 0;
-        
-        setHideSwipeButton(hideForContact || hideForMenu);
-      }
-    };
-    
-    window.addEventListener('scroll', checkSectionVisibility);
-    checkSectionVisibility(); // Check on mount
-    
-    return () => window.removeEventListener('scroll', checkSectionVisibility);
-  }, []);
-  
-  // Calibrated center offsets for each menu item
-  const centerOffsets = {
-    "Buffalo Ranch": { x: -0.75, y: 7.5 },
-    "Cheese Burger": { x: -1.5, y: 21 },
-    "Nutella Shake": { x: 0, y: 18.75 },
-    "Double Cheese": { x: -25, y: 9.75 },
-    "Hot Tenders": { x: 0, y: 26.25 },
-    "Oreo Shake": { x: -0.75, y: 22.5 }
-  };
-
-  const floatingAnimation = useReactSpring({
-    from: { transform: "translateY(0px)" },
-    to: async (next) => {
-      while (true) {
-        await next({ transform: "translateY(-20px)" });
-        await next({ transform: "translateY(0px)" });
-      }
-    },
-    config: { duration: 3000 },
-  });
-
-  // Menu items that will fly in from bottom
-  // Reordered to show chicken burger, smash burger, shake on mobile
-  const menuItems = [
-    { image: currentImages.chicken.buffaloRanch, name: "Buffalo Ranch", delay: 0 },
-    { image: currentImages.burgers.cheeseBurger, name: "Cheese Burger", delay: 0.1 },
-    { image: currentImages.drinks.nutellaShake, name: "Nutella Shake", delay: 0.2 },
-    { image: currentImages.burgers.doubleCheeseBurger, name: "Double Cheese", delay: 0.3 },
-    { image: currentImages.sides.tenders, name: "Hot Tenders", delay: 0.4 },
-    { image: currentImages.drinks.oreoShake, name: "Oreo Shake", delay: 0.5 },
-  ];
 
   return (
-    <section id="home" ref={ref} className="relative min-h-screen flex items-start sm:items-center justify-center overflow-x-hidden overflow-y-auto pt-16 sm:py-4" style={{ backgroundColor: '#ffffff' }}>
-      {/* Animated Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-10" style={{
-          background: 'linear-gradient(to bottom right, #f0f0f0, #fafafa, #ffffff)'
-        }} />
-        {/* Subtle Pattern */}
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23006838' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 w-full flex flex-col items-center justify-center min-h-full">
-        <div className="flex flex-col items-center justify-center w-full">
-          {/* Center Text */}
+    <section id="home" ref={ref} className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+      {/* Mobile Layout - Full Screen Height with safe areas */}
+      <div className="sm:hidden w-full min-h-screen relative" style={{ minHeight: '100vh', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        {/* Brand color accent shapes */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-brand-green/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-green/5 rounded-full blur-3xl"></div>
+        
+        {/* Content container with flexible spacing */}
+        <div className="min-h-screen flex flex-col px-4 pb-8">
+          {/* Header spacer */}
+          <div className="h-20"></div>
+          
+          {/* Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-2"
+          >
+            <h1 className="text-[10vw] font-black text-gray-900 leading-[0.85]">
+              <span className="text-brand-green">SMASHED</span> TO<br />
+              PERFECTION
+            </h1>
+          </motion.div>
+          
+          {/* Large food images */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, type: "spring" }}
-            className="text-center relative z-20 mb-0 mt-0 sm:mt-[10vh] md:mt-[8vh] lg:mt-6 xl:mt-8 mx-0 sm:mx-4 px-0 sm:px-4 py-0 sm:py-2 flex flex-col items-center justify-center w-full"
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="-mx-4 relative flex items-center flex-shrink-0 -mt-12"
+            style={{ height: 'clamp(200px, 28vh, 300px)' }}
           >
+            {/* Brand color accent behind images */}
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-green/5 via-transparent to-brand-green/5"></div>
+            <div className="flex items-center justify-center h-full">
+              {/* Chicken - Left */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+                className="relative w-[30%] h-full pt-20 ml-4"
+              >
+                <img 
+                  src={currentImages.chicken.buffaloRanch}
+                  alt="Buffalo Ranch Chicken"
+                  className="w-full h-full object-contain"
+                  style={{ 
+                    filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2))',
+                    transform: 'scale(2.16)'
+                  }}
+                />
+              </motion.div>
+              
+              {/* Burger - Center (largest) */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.6, type: "spring", stiffness: 100 }}
+                className="relative w-[40%] h-full -mx-2 z-10 -ml-3"
+              >
+                <img 
+                  src={currentImages.burgers.jalapenoCheeseBurger}
+                  alt="Jalapeño Cheese Burger"
+                  className="w-full h-full object-contain"
+                  style={{ 
+                    filter: 'drop-shadow(0 25px 40px rgba(0, 0, 0, 0.25))',
+                    transform: 'scale(2.4)'
+                  }}
+                />
+              </motion.div>
+              
+              {/* Shake - Right */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.7, type: "spring", stiffness: 100 }}
+                className="relative w-[30%] h-full pt-8 z-0 -ml-4"
+              >
+                <img 
+                  src={currentImages.drinks.vanillaShake}
+                  alt="Vanilla Shake"
+                  className="w-full h-full object-contain"
+                  style={{ 
+                    filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15))',
+                    transform: 'scale(1.98)'
+                  }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+          
+          {/* 3 Square Images Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="flex justify-center gap-3 pt-10 pb-4 flex-shrink-0"
+          >
+            {/* Square Image 1 - You can replace with actual images */}
+            <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
+              <img 
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-1.png"
+                alt="Natural Shot 1"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            {/* Square Image 2 */}
+            <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
+              <img 
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-3.png"
+                alt="Natural Shot 3"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            {/* Square Image 3 */}
+            <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
+              <img 
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-5.png"
+                alt="Natural Shot 5"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+          
+          {/* Bottom content - moved up */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.8 }}
+            className="text-center space-y-3 mt-6"
+          >
+            {/* Text content */}
+            <div className="space-y-1">
+              <p className="text-[5vw] font-bold text-gray-800">
+                SMASH BURGERS
+              </p>
+              <p className="text-[4vw] text-gray-600">
+                FRIES • HOT CHICKEN • SHAKES
+              </p>
+              <p className="text-[3.5vw] text-gray-600">
+                100% HALAL • FRESH INGREDIENTS • MADE TO ORDER
+              </p>
+            </div>
+            
+            {/* Swipe to Order only */}
+            <div className="pt-2">
+              <SwipeToOrder />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+      
+      {/* Desktop Layout */}
+      <div className="hidden sm:block w-full pl-4 md:pl-8 pr-4 pt-4 md:pt-8">
+        <div className="grid md:grid-cols-2 gap-8 items-center max-w-[1600px]">
+          {/* Left side - Text content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-left space-y-6"
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 }}
+              className="text-5xl lg:text-7xl font-black text-gray-900 leading-tight"
+            >
+              <span className="text-brand-green">SMASHED</span> TO<br />
+              PERFECTION
+            </motion.h1>
+            
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 }}
-              className="mb-2 sm:mb-8 lg:mb-10"
+              className="space-y-2"
             >
-              <img 
-                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/branding/logo-primary.jpeg"
-                alt="Steiny's Logo - Smashed to Perfection"
-                className="w-[calc(100vw-32px)] sm:w-72 md:w-80 lg:w-96 xl:w-[28rem] 2xl:w-[36rem] h-auto mx-auto drop-shadow-2xl"
-              />
+              <p className="text-2xl lg:text-3xl font-bold text-gray-800">
+                SMASH BURGERS
+              </p>
+              <p className="text-xl lg:text-2xl text-gray-600">
+                FRIES • HOT CHICKEN • SHAKES
+              </p>
             </motion.div>
-
-            {/* Navigation Menu Below Logo */}
-            <motion.div
+            
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 }}
-              className="hidden sm:flex items-center gap-6 md:gap-8 lg:gap-12 xl:gap-16 mb-2 sm:mb-3"
+              className="text-lg text-gray-600 max-w-md"
             >
-              {["home", "about", "menu", "location", "contact"].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item}`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={cn(
-                    "text-sm md:text-base lg:text-lg font-bold transition-colors capitalize",
-                    activeSection === item 
-                      ? "text-brand-green" 
-                      : "text-gray-700 hover:text-brand-green"
-                  )}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </motion.div>
-
-            {/* Mobile: Single item carousel */}
-            <div className="sm:hidden w-full flex justify-center items-center -mt-12 mb-0">
-              <MobileCarousel menuItems={menuItems} />
-            </div>
-
-            {/* Desktop: Menu items in a horizontal line */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.5 }}
-              className="hidden sm:flex gap-0 justify-center items-center my-0 w-full mx-auto px-0 sm:px-[2vw] overflow-visible"
-            >
-              {menuItems.map((item, index) => {
-                // Get the offset for this item
-                const rawOffset = centerOffsets[item.name] || { x: 0, y: 0 };
-                
-                // Scale the offsets based on fixed size
-                // Using xl size (224px) as reference
-                const scaleFactor = 224 / 192; // Scale from original 192px calibration
-                const offset = {
-                  x: rawOffset.x * scaleFactor,
-                  y: rawOffset.y * scaleFactor
-                };
-                
-                // Hide items based on screen size to ensure no cutoff
-                // Mobile: show first 3 (chicken, burger, shake), Small: show first 4, Medium: show first 5, Large+: show all 6
-                // Show all 6 items on all screen sizes
-                let hiddenClass = '';
-                
-                return (
-                  <div
-                    key={item.name}
-                    className={`relative ${hiddenClass}`}
-                    style={{
-                      // Move the entire container up by the Y offset amount
-                      // This makes all red dots align on the same horizontal line
-                      marginTop: `${-offset.y}px`,
-                      marginLeft: `${offset.x}px`
-                    }}
-                  >
-                    <motion.div
-                      animate={{
-                        y: [0, -10, 0],
-                      }}
-                      transition={{
-                        duration: 3 + index * 0.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="w-[20vw] sm:w-[25vw] h-[20vw] sm:h-[25vw] max-w-[35rem] max-h-[35rem] min-w-24 sm:min-w-32 min-h-24 sm:min-h-32 flex items-center justify-center relative flex-shrink-0 -mx-[3vw] sm:-mx-[5vw]"
-                    >
-                  <img 
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-contain"
-                    style={{ 
-                      filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4))'
-                    }}
-                  />
-                  
-                    </motion.div>
-                  </div>
-                );
-              })}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.6 }}
-              className="mb-1 sm:mb-2 mt-4 sm:mt-0"
-            >
-              <div className="flex flex-col items-center space-y-1">
-                <div className="text-brand-green font-black text-xl sm:text-lg md:text-xl lg:text-2xl xl:text-3xl tracking-[0.3em] sm:tracking-[0.6em] md:tracking-[0.8em] lg:tracking-[1em] uppercase whitespace-nowrap" style={{ fontWeight: 900 }}>
-                  SMASH BURGERS
-                </div>
-                <div className="flex items-center justify-center space-x-3 text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-                  <span className="text-gray-800 font-bold">FRIES</span>
-                  <span className="text-brand-green text-xl sm:text-xl md:text-2xl lg:text-3xl">•</span>
-                  <span className="text-gray-800 font-bold">HOT CHICKEN</span>
-                  <span className="text-brand-green text-xl sm:text-xl md:text-2xl lg:text-3xl">•</span>
-                  <span className="text-gray-800 font-bold">SHAKES</span>
-                </div>
-              </div>
-            </motion.div>
-
+              100% HALAL • FRESH INGREDIENTS • MADE TO ORDER
+            </motion.p>
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.5 }}
-              className="flex justify-center fixed bottom-8 left-0 right-0 sm:relative sm:bottom-auto sm:mb-8 w-full px-4 z-50"
+              className="flex flex-col sm:flex-row gap-4 justify-start"
             >
-              {/* Mobile: Swipe to Order - Hide when contact section is visible */}
-              {!hideSwipeButton && (
-                <div className="sm:hidden w-full max-w-xs">
-                  <SwipeToOrder />
-                </div>
-              )}
-              
-              {/* Desktop: Regular Button */}
               <motion.a
-                href="#order"
+                href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden sm:flex text-white px-8 py-4 lg:px-10 lg:py-5 xl:px-12 xl:py-6 rounded-full text-lg lg:text-xl xl:text-2xl font-bold shadow-xl hover:shadow-2xl transition-all items-center justify-center"
+                className="hidden sm:inline-block px-8 py-4 rounded-full text-lg font-bold shadow-xl text-white uppercase tracking-wider"
                 style={{ backgroundColor: '#006738' }}
               >
-                Order Online
+                ORDER NOW
+              </motion.a>
+              <motion.a
+                href="#menu"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 rounded-full text-lg font-bold border-2 border-brand-green text-brand-green bg-white shadow-xl"
+              >
+                VIEW MENU
               </motion.a>
             </motion.div>
           </motion.div>
-
+          
+          {/* Right side - Static images in a row */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative h-[400px] md:h-[500px] lg:h-[600px] hidden sm:flex items-center justify-center pr-4 md:pr-6"
+          >
+            <div className="flex items-center justify-center gap-4 lg:gap-8 w-full">
+              {/* Chicken - Left */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+                className="relative w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] md:w-[280px] md:h-[280px] lg:w-[350px] lg:h-[350px] z-20"
+              >
+                <img 
+                  src={currentImages.chicken.buffaloRanch}
+                  alt="Buffalo Ranch Chicken"
+                  className="w-full h-full object-contain scale-[2] sm:scale-[2.5] md:scale-[3]"
+                  style={{ 
+                    filter: 'drop-shadow(0 30px 50px rgba(0, 0, 0, 0.25))'
+                  }}
+                />
+              </motion.div>
+              
+              {/* Burger - Center (largest) */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.6, type: "spring", stiffness: 100 }}
+                className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] z-30"
+              >
+                <img 
+                  src={currentImages.burgers.jalapenoCheeseBurger}
+                  alt="Jalapeño Cheese Burger"
+                  className="w-full h-full object-contain scale-[2] sm:scale-[2.5] md:scale-[3]"
+                  style={{ 
+                    filter: 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.3))'
+                  }}
+                />
+              </motion.div>
+              
+              {/* Shake - Right */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.7, type: "spring", stiffness: 100 }}
+                className="relative w-[180px] h-[180px] sm:w-[210px] sm:h-[210px] md:w-[250px] md:h-[250px] lg:w-[320px] lg:h-[320px] z-10"
+              >
+                <img 
+                  src={currentImages.drinks.vanillaShake}
+                  alt="Vanilla Shake"
+                  className="w-full h-full object-contain scale-[2] sm:scale-[2.5] md:scale-[3]"
+                  style={{ 
+                    filter: 'drop-shadow(0 25px 40px rgba(0, 0, 0, 0.2))'
+                  }}
+                />
+              </motion.div>
+            </div>
+            
+            {/* Background accent */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute w-[800px] h-[400px] bg-brand-green/5 rounded-full blur-3xl"
+                style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
+              />
+            </div>
+          </motion.div>
         </div>
+        
       </div>
     </section>
   );
@@ -594,37 +703,37 @@ function AboutSection() {
 
   const features = [
     {
-      icon: "🏆",
-      title: "NYC's Top Smashburgers",
+      icon: "01",
+      title: "NYC'S TOP SMASHBURGERS",
       subtitle: "VOTED #1",
-      description: "Voted NYC's Top Smashburgers 2025",
-      gradient: "from-yellow-500 to-amber-500",
+      description: "VOTED NYC'S TOP SMASHBURGERS 2025",
+      accent: "text-yellow-600",
     },
     {
-      icon: "🌿",
-      title: "Premium Ingredients",
+      icon: "02",
+      title: "PREMIUM INGREDIENTS",
       subtitle: "ALWAYS FRESH",
-      description: "Hand-smashed beef & crispy chicken",
-      gradient: "from-red-500 to-orange-500",
+      description: "HAND-SMASHED BEEF & CRISPY CHICKEN",
+      accent: "text-red-600",
     },
     {
-      icon: "☪️",
-      title: "100% Halal",
+      icon: "03",
+      title: "100% HALAL",
       subtitle: "CERTIFIED",
-      description: "Premium ingredients you can trust",
-      gradient: "from-brand-green to-emerald-500",
+      description: "PREMIUM INGREDIENTS YOU CAN TRUST",
+      accent: "text-brand-green",
     },
     {
-      icon: "🔥",
-      title: "Always Fresh",
+      icon: "04",
+      title: "ALWAYS FRESH",
       subtitle: "MADE TO ORDER",
-      description: "Hot off the grill, every time",
-      gradient: "from-orange-500 to-red-500",
+      description: "HOT OFF THE GRILL, EVERY TIME",
+      accent: "text-orange-600",
     },
   ];
 
   return (
-    <section id="about" ref={ref} className="py-6 lg:py-12 bg-white relative overflow-hidden">
+    <section id="about" ref={ref} className="py-16 lg:py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -632,92 +741,132 @@ function AboutSection() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h2 className="text-4xl lg:text-6xl font-black mb-6 text-center">
-            OUR <span className="gradient-text">STORY</span>
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto mb-8">
-            <div className="order-2 md:order-1">
-              <p className="text-xl text-gray-600 leading-relaxed">
-                The meaning behind our name, Steiny B's, is a tribute to <span className="font-bold text-brand-green">Lionel Sternberger</span>, 
-                who is reputed to have introduced the cheeseburger in 1924 at the age of 16. 
-                Steiny is contributed to his name 'Sternberger' and B's is contributed to our signature smash burgers.
-              </p>
-            </div>
+          {/* Classic vintage header */}
+          <div className="text-center mb-16">
             <motion.div 
-              className="order-1 md:order-2 flex justify-center"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <img 
-                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/history/lionel-sternberger.png"
-                alt="Lionel Sternberger - Inventor of the Cheeseburger"
-                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain rounded-2xl shadow-xl"
-              />
-            </motion.div>
+              initial={{ width: 0 }}
+              animate={inView ? { width: "100%" } : {}}
+              transition={{ duration: 0.8 }}
+              className="h-px bg-gray-300 max-w-lg mx-auto mb-8"
+            />
+            <h2 className="text-5xl lg:text-7xl font-serif text-gray-900 mb-2">
+              Our Story
+            </h2>
+            <p className="text-sm tracking-[0.3em] text-gray-500 font-medium">EST. 2025 • BROOKLYN, NY</p>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={inView ? { width: "100%" } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="h-px bg-gray-300 max-w-lg mx-auto mt-8"
+            />
           </div>
           
-          <div className="text-center max-w-3xl mx-auto">
-            <h3 className="text-2xl lg:text-3xl font-bold mb-3 text-gray-800">WHAT WE STAND FOR</h3>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              At Steiny B's, we prepare our signature smash burgers, made to order, with 100% fresh beef, 
-              hand-smashed on a hot grill to sear in the juices and deliver a crispy caramelized crust. 
-              Our menu also features fries • hot chicken • shakes.
-            </p>
+          {/* Story content with vintage newspaper style */}
+          <div className="max-w-5xl mx-auto">
+            {/* Heritage section with classic layout */}
+            <div className="grid md:grid-cols-2 gap-12 mb-20">
+              <motion.div 
+                initial={{ opacity: 0, x: -30 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="space-y-6"
+              >
+                <div className="border-l-4 border-brand-green pl-6">
+                  <h3 className="text-sm font-bold tracking-[0.2em] text-gray-500 mb-2">HERITAGE</h3>
+                  <h4 className="text-2xl lg:text-3xl font-serif text-gray-900 mb-4">A Tribute to Tradition</h4>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  The meaning behind our name, <span className="font-bold text-brand-green">Steiny B's</span>, is a tribute to 
+                  <span className="font-bold"> Lionel Sternberger</span>, who is reputed to have introduced the cheeseburger in 
+                  <span className="font-bold">1924</span> at the age of 16.
+                </p>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  <span className="font-bold">Steiny</span> is contributed to his name 'Sternberger' and 
+                  <span className="font-bold">B's</span> is contributed to our signature smash burgers.
+                </p>
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0, x: 30 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="space-y-6"
+              >
+                <div className="border-l-4 border-brand-green pl-6">
+                  <h3 className="text-sm font-bold tracking-[0.2em] text-gray-500 mb-2">PHILOSOPHY</h3>
+                  <h4 className="text-2xl lg:text-3xl font-serif text-gray-900 mb-4">What We Stand For</h4>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  At Steiny B's, we prepare our signature smash burgers, made to order, with 
+                  <span className="font-bold text-brand-green"> 100% fresh beef</span>, hand-smashed on a hot grill to sear in the juices and deliver a 
+                  <span className="font-bold"> crispy caramelized crust</span>.
+                </p>
+                <div className="bg-gray-50 border border-gray-200 p-4 mt-6">
+                  <p className="text-center text-gray-800 font-serif text-lg">
+                    <span className="font-bold">FRIES</span> • 
+                    <span className="font-bold"> HOT CHICKEN</span> • 
+                    <span className="font-bold"> SHAKES</span>
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+            
+            {/* Decorative divider */}
+            <div className="flex items-center justify-center mb-20">
+              <div className="h-px bg-gray-300 w-24"></div>
+              <div className="mx-4">
+                <svg className="w-8 h-8 text-brand-green" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <div className="h-px bg-gray-300 w-24"></div>
+            </div>
           </div>
         </motion.div>
 
-        <div className="relative">
-          {/* Background decoration */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-[600px] h-[300px] bg-brand-green/5 rounded-full blur-3xl"></div>
-          </div>
-          
-          <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
+        {/* Feature Cards with Vintage Style */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-20"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                className="group relative"
+                transition={{ delay: 0.7 + index * 0.1 }}
+                className="group"
               >
-                {/* Card */}
-                <div className="relative h-full">
-                  {/* Gradient background on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
-                  <div className="relative bg-white p-4 md:p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full border border-gray-100 group-hover:border-transparent">
-                    {/* Static icon */}
-                    <div className="text-4xl md:text-6xl mb-3 md:mb-6 flex justify-center">
-                      {feature.icon}
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="text-center space-y-2">
-                      <p className={`text-xs font-black tracking-widest ${
-                        feature.subtitle === "CERTIFIED" 
-                          ? "text-brand-green" 
-                          : `bg-gradient-to-r ${feature.gradient} bg-clip-text text-transparent`
-                      }`}>
+                <div className="relative h-full bg-white border border-gray-300 p-8 transition-all duration-300 hover:shadow-xl">
+                  {/* Content */}
+                  <div className="text-center space-y-4">
+                    <div>
+                      <p className={`text-xs font-bold tracking-[0.3em] ${feature.accent} mb-2`}>
                         {feature.subtitle}
                       </p>
-                      <h3 className="text-lg md:text-2xl font-black text-gray-900">
+                      <h3 className="text-lg font-black text-gray-900">
                         {feature.title}
                       </h3>
-                      <p className="text-xs md:text-sm text-gray-600 leading-relaxed pt-1 md:pt-2">
-                        {feature.description}
-                      </p>
                     </div>
-                    
-                    {/* Bottom accent line */}
-                    <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r ${feature.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                    <div className="h-px bg-gray-300 w-12 mx-auto"></div>
+                    <p className="text-sm text-gray-600 leading-relaxed uppercase">
+                      {feature.description}
+                    </p>
                   </div>
+                  
+                  {/* Decorative corner elements */}
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-gray-400"></div>
+                  <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-gray-400"></div>
+                  <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-gray-400"></div>
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-gray-400"></div>
                 </div>
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -906,7 +1055,7 @@ function MenuSection() {
           <h2 className="text-4xl lg:text-6xl font-black mb-6">
             OUR <span className="gradient-text">MENU</span>
           </h2>
-          <p className="text-xl text-gray-600">Every bite tells a story of flavor</p>
+          <p className="text-xl text-gray-600 uppercase tracking-wider font-bold">EVERY BITE TELLS A STORY OF FLAVOR</p>
         </motion.div>
 
         <Tabs.Root defaultValue="burgers" className="w-full">
@@ -918,7 +1067,7 @@ function MenuSection() {
                 className="group px-6 py-3 rounded-full font-bold text-lg transition-all data-[state=active]:bg-gray-100 data-[state=active]:text-brand-green data-[state=active]:shadow-xl hover:scale-105 bg-white shadow-md text-gray-800 border-2 border-transparent data-[state=active]:border-brand-green/20"
               >
                 <span className="text-2xl mr-2">{category.icon}</span>
-                <span className="capitalize">{key}</span>
+                <span className="uppercase font-bold tracking-wider">{key}</span>
               </Tabs.Trigger>
             ))}
           </Tabs.List>
@@ -983,17 +1132,20 @@ function MenuSection() {
                           
                           <div className="flex items-center justify-between mt-auto pt-4">
                             <p className="text-3xl font-black text-brand-green">{item.price}</p>
-                            <motion.button
+                            <motion.a
+                              href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+                              target="_blank"
+                              rel="noopener noreferrer"
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-shadow"
+                              className="inline-block px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-shadow"
                               style={{ 
                                 background: 'linear-gradient(to right, #006838, #008947)',
                                 color: 'white'
                               }}
                             >
-                              Order Now
-                            </motion.button>
+                              ORDER NOW
+                            </motion.a>
                           </div>
                         </div>
                       </div>
@@ -1005,47 +1157,60 @@ function MenuSection() {
           ))}
         </Tabs.Root>
 
-        {/* Combo Deal */}
+        {/* Combo Deal - Classic Vintage Style */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.3, type: "spring" }}
-          className="mt-16 relative"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.3 }}
+          className="mt-20 relative"
         >
-          <div className="relative">
-            {/* Background decoration */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-brand-green to-brand-light rounded-3xl blur-2xl opacity-20"></div>
-            
-            <div className="relative bg-gradient-to-br from-brand-green/10 via-white to-brand-light/10 p-8 lg:p-12 rounded-3xl border-2 border-brand-green/30 overflow-hidden">
-              {/* Pattern overlay */}
-              <div className="absolute inset-0 opacity-5">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(0,104,56,0.1) 35px, rgba(0,104,56,0.1) 70px)`
-                }}></div>
-              </div>
+          <div className="max-w-4xl mx-auto">
+            {/* Classic bordered box design */}
+            <div className="relative bg-white border-4 border-double border-gray-800 p-12 lg:p-16">
+              {/* Corner ornaments */}
+              <div className="absolute -top-3 -left-3 w-6 h-6 bg-white border-2 border-gray-800"></div>
+              <div className="absolute -top-3 -right-3 w-6 h-6 bg-white border-2 border-gray-800"></div>
+              <div className="absolute -bottom-3 -left-3 w-6 h-6 bg-white border-2 border-gray-800"></div>
+              <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-white border-2 border-gray-800"></div>
               
-              <div className="relative z-10 text-center">
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="inline-block mb-4"
-                >
-                  <span className="text-5xl">🍟</span>
-                  <span className="text-5xl mx-2">+</span>
-                  <span className="text-5xl">🥤</span>
-                </motion.div>
+              <div className="text-center space-y-6">
+                {/* Vintage style header */}
+                <div>
+                  <p className="text-sm font-bold tracking-[0.3em] text-gray-600 mb-3">SPECIAL OFFER</p>
+                  <h3 className="text-4xl lg:text-5xl font-serif text-gray-900 mb-2">
+                    Make It A Combo
+                  </h3>
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <div className="h-px bg-gray-400 w-20"></div>
+                    <svg className="w-6 h-6 text-brand-green" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <div className="h-px bg-gray-400 w-20"></div>
+                  </div>
+                </div>
                 
-                <h3 className="text-3xl lg:text-4xl font-black mb-3 text-gray-800">
-                  MAKE IT A <span className="text-brand-green">COMBO</span>
-                </h3>
-                <p className="text-xl mb-6 text-gray-700 font-medium">
-                  Make any item a combo with fries and a drink
-                </p>
+                {/* Menu items */}
+                <div className="space-y-3">
+                  <p className="text-xl text-gray-700 font-serif">
+                    Add to any sandwich, burger, or chicken item
+                  </p>
+                  <div className="flex items-center justify-center gap-3 text-lg font-bold text-gray-800">
+                    <span>FRIES</span>
+                    <span className="text-brand-green">+</span>
+                    <span>DRINK</span>
+                  </div>
+                </div>
                 
-                <div className="inline-flex items-baseline gap-1 text-gray-800">
-                  <span className="text-2xl font-medium">Just</span>
-                  <span className="text-6xl font-black text-brand-green">$4</span>
-                  <span className="text-3xl font-bold">.00</span>
+                {/* Price */}
+                <div className="pt-4">
+                  <div className="inline-block border-t-4 border-b-4 border-gray-800 py-4 px-8">
+                    <div className="flex items-baseline justify-center gap-2">
+                      <span className="text-2xl font-serif text-gray-700">Only</span>
+                      <span className="text-6xl font-black text-brand-green">$4</span>
+                      <span className="text-3xl font-bold text-gray-800">.00</span>
+                    </div>
+                    <p className="text-sm font-bold tracking-wider text-gray-600 mt-2">ADDITIONAL</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1158,7 +1323,7 @@ function LocationSection() {
             <div className="mb-4">
               <MapPin className="w-8 h-8 text-brand-green mx-auto" />
             </div>
-            <h3 className="text-xl font-bold mb-3">Location</h3>
+            <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">LOCATION</h3>
             <p className="text-gray-600 mb-4">
               942 Flatbush Ave<br />
               Brooklyn, NY 11226
@@ -1169,7 +1334,7 @@ function LocationSection() {
               rel="noopener noreferrer"
               className="inline-flex items-center text-brand-green hover:text-brand-dark font-medium transition-colors"
             >
-              Get Directions
+              GET DIRECTIONS
               <ArrowRight className="w-4 h-4 ml-1" />
             </a>
           </motion.div>
@@ -1184,7 +1349,7 @@ function LocationSection() {
             <div className="mb-4">
               <Clock className="w-8 h-8 text-brand-green mx-auto" />
             </div>
-            <h3 className="text-xl font-bold mb-3">Hours</h3>
+            <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">HOURS</h3>
             <div className="text-gray-600 space-y-2">
               <div>
                 <p className="font-medium text-gray-800">Mon - Thu</p>
@@ -1211,16 +1376,16 @@ function LocationSection() {
             <div className="mb-4">
               <Phone className="w-8 h-8 text-brand-green mx-auto" />
             </div>
-            <h3 className="text-xl font-bold mb-3">Contact</h3>
+            <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">CONTACT</h3>
             <p className="text-gray-600 mb-4">
-              Ready to order?<br />
+              READY TO ORDER?<br />
               <span className="text-2xl font-bold text-gray-900">(212) 555-0123</span>
             </p>
             <a
               href="tel:2125550123"
               className="inline-flex items-center text-brand-green hover:text-brand-dark font-medium transition-colors"
             >
-              Call Now
+              CALL NOW
               <ArrowRight className="w-4 h-4 ml-1" />
             </a>
           </motion.div>
@@ -1256,11 +1421,11 @@ function ContactSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto"
         >
-          <h2 className="text-4xl lg:text-6xl font-black mb-6 text-gray-900">
+          <h2 className="text-4xl lg:text-6xl font-black mb-6 text-gray-900 uppercase tracking-wider">
             HUNGRY YET?
           </h2>
-          <p className="text-xl lg:text-2xl mb-12 text-gray-700">
-            Order now for pickup or delivery and taste the difference
+          <p className="text-xl lg:text-2xl mb-12 text-gray-700 uppercase font-bold tracking-wider">
+            ORDER NOW FOR PICKUP OR DELIVERY AND TASTE THE DIFFERENCE
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
@@ -1273,7 +1438,7 @@ function ContactSection() {
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#006838'}
             >
               <ShoppingBag className="w-5 h-5" />
-              Order for Pickup
+              ORDER FOR PICKUP
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button
@@ -1285,7 +1450,7 @@ function ContactSection() {
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#006838'}
             >
               <Zap className="w-5 h-5" />
-              Order for Delivery
+              ORDER FOR DELIVERY
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </div>
@@ -1315,16 +1480,16 @@ function Footer() {
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">
-          <p className="text-gray-500 mb-2">© 2025 Steiny&apos;s. All rights reserved.</p>
-          <p className="text-gray-500">
-            Website Designed and Developed by{' '}
+          <p className="text-gray-500 mb-2 uppercase tracking-wider font-bold">© 2025 STEINY&apos;S. ALL RIGHTS RESERVED.</p>
+          <p className="text-gray-500 uppercase tracking-wider font-bold">
+            WEBSITE DESIGNED AND DEVELOPED BY{' '}
             <a 
               href="https://franklinreitzas.com" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-brand-green hover:text-brand-light transition-colors font-semibold underline"
             >
-              Franklin Reitzas
+              FRANKLIN REITZAS
             </a>
           </p>
         </div>
