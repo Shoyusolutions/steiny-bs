@@ -886,10 +886,10 @@ function MenuSection() {
     "Buffalo Ranch Chicken Sandwich": { x: -1, y: 10 },
     "Nashville Hot Chicken Sandwich": { x: 0, y: 12 },  // Added nashville
     "Sweet Chili Chicken Sandwich": { x: 0, y: 10 },  // Added sweet chili
-    "Nutella Milkshake": { x: 0, y: 25 },
-    "Oreo Milkshake": { x: -1, y: 30 },
-    "Vanilla Milkshake": { x: 0, y: 28 },  // Added vanilla
-    "Strawberry Milkshake": { x: 0, y: 26 },  // Added strawberry
+    "Nutella Milkshake": { x: 0, y: 10 },
+    "Cookies N' Cream Milkshake": { x: 0, y: 10 },
+    "Vanilla Milkshake": { x: 0, y: 23 },  // Added vanilla
+    "Strawberry Milkshake": { x: 0, y: 25 },  // Added strawberry
     "3 Hot Tenders": { x: 0, y: 10 },
     "Fries": { x: 0, y: 20 },  // Added fries
     "Loaded Beef Fries": { x: 0, y: 15 },  // Added loaded beef
@@ -898,7 +898,6 @@ function MenuSection() {
 
   const menuData = {
     burgers: {
-      icon: "🍔",
       items: [
         {
           name: "Cheese Burger",
@@ -907,6 +906,7 @@ function MenuSection() {
           image: currentImages.burgers.cheeseBurger,
           imageType: "photo",
           popular: false,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/C3CVKS2TPGWWW",
         },
         {
           name: "Double Cheese Burger",
@@ -914,7 +914,7 @@ function MenuSection() {
           description: "100% fresh beef burger served with American cheese, grilled onions, pickles and house sauce on a potato bun",
           image: currentImages.burgers.doubleCheeseBurger,
           imageType: "photo",
-          popular: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/CVGWXFW2Z7TP6",
         },
         {
           name: "Jalapeño Cheese Burger",
@@ -924,11 +924,11 @@ function MenuSection() {
           image: currentImages.burgers.jalapenoCheeseBurger,
           imageType: "photo",
           spicy: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/X1WTD4T07PBWP",
         },
       ],
     },
     chicken: {
-      icon: "🍗",
       items: [
         {
           name: "Nashville Hot Chicken Sandwich",
@@ -939,6 +939,7 @@ function MenuSection() {
           imageType: "photo",
           popular: false,
           spicy: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/TYH6MAVPY5GAR",
         },
         {
           name: "Buffalo Ranch Chicken Sandwich",
@@ -946,6 +947,7 @@ function MenuSection() {
           description: "Hand breaded chicken breast, pickles, American cheese, house sauce, served on a brioche bun",
           image: currentImages.chicken.buffaloRanch,
           imageType: "photo",
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/EDB849T7PNB9P",
         },
         {
           name: "Sweet Chili Chicken Sandwich",
@@ -953,20 +955,18 @@ function MenuSection() {
           description: "Hand breaded chicken breast, pickles, American cheese, sriracha mayo sauce, sesame seeds, scallion served on a brioche bun",
           image: currentImages.chicken.sweetChili,
           imageType: "photo",
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/F7Y4HXY465Z2M",
         },
       ],
     },
     sides: {
-      icon: "🍟",
       items: [
         {
           name: "Fries",
           price: "$4.47",
           description: "Crispy golden perfection",
           addon: "Add Spice 49¢",
-          image: currentImages.sides.fries,
-          imageType: "photo",
-          popular: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/X6P772FGK9YC0",
         },
         {
           name: "Loaded Beef Fries",
@@ -974,6 +974,7 @@ function MenuSection() {
           description: "Two beef patties chopped up with shredded American cheese, crispy onions, jalapeños served on fries",
           image: currentImages.sides.loadedBeefFries,
           imageType: "photo",
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/W56Q7KXCT872M",
         },
         {
           name: "Loaded Hot Chicken Fries",
@@ -982,6 +983,7 @@ function MenuSection() {
           image: currentImages.sides.loadedChickenFries,
           imageType: "photo",
           spicy: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/8H30TPDGX0CQJ",
         },
         {
           name: "3 Hot Tenders",
@@ -990,40 +992,28 @@ function MenuSection() {
           addon: "Mild, Medium, Hot, Extra Hot",
           image: currentImages.sides.tenders,
           imageType: "photo",
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/0X6TSR781NHNY",
         },
         {
           name: "Butter Milk Biscuit",
           price: "$2.47",
           description: "Fluffy and buttery",
-          image: currentImages.sides.biscuit,
-          imageType: "photo",
         },
         {
           name: "Sauce",
           price: "49¢",
           description: "Extra sauce for your meal",
-          image: currentImages.sides.fries,
-          imageType: "photo",
         },
       ],
     },
-    drinks: {
-      icon: "🥤",
+    shakes: {
       items: [
-        {
-          name: "Drinks",
-          price: "$1.75",
-          description: "Coca Cola, Coke, Dr Pepper, Sprite, 7Up, Fanta",
-          image: currentImages.drinks.softDrinks,
-          imageType: "photo",
-        },
         {
           name: "Vanilla Milkshake",
           price: "$9.49",
           description: "Creamy vanilla goodness",
           image: currentImages.drinks.vanillaShake,
           imageType: "photo",
-          popular: true,
         },
         {
           name: "Nutella Milkshake",
@@ -1037,6 +1027,45 @@ function MenuSection() {
           price: "$9.49",
           description: "Oreo cookies blended to perfection",
           image: currentImages.drinks.oreoShake,
+          imageType: "photo",
+        },
+      ],
+    },
+    drinks: {
+      items: [
+        {
+          name: "Dr. Pepper",
+          price: "$1.75",
+          description: "",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Diet Coke",
+          price: "$1.75",
+          description: "",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Coca Cola",
+          price: "$1.75",
+          description: "",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Sprite",
+          price: "$1.75",
+          description: "",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Fanta",
+          price: "$1.75",
+          description: "",
+          image: currentImages.drinks.softDrinks,
           imageType: "photo",
         },
       ],
@@ -1064,10 +1093,13 @@ function MenuSection() {
               <Tabs.Trigger
                 key={key}
                 value={key}
-                className="group px-6 py-3 rounded-full font-bold text-lg transition-all data-[state=active]:bg-gray-100 data-[state=active]:text-brand-green data-[state=active]:shadow-xl hover:scale-105 bg-white shadow-md text-gray-800 border-2 border-transparent data-[state=active]:border-brand-green/20"
+                className="group relative px-10 py-4 font-bold text-lg transition-all duration-300 bg-white text-gray-700 hover:text-gray-900 hover:bg-gray-100 data-[state=active]:text-brand-green data-[state=active]:bg-gray-100 border-2 border-gray-300 hover:border-gray-400 data-[state=active]:border-brand-green rounded-lg shadow-md hover:shadow-lg data-[state=active]:shadow-lg"
+                style={{
+                  fontFamily: '"Playfair Display", serif',
+                  letterSpacing: '0.2em'
+                }}
               >
-                <span className="text-2xl mr-2">{category.icon}</span>
-                <span className="uppercase font-bold tracking-wider">{key}</span>
+                <span className="uppercase">{key}</span>
               </Tabs.Trigger>
             ))}
           </Tabs.List>
@@ -1092,7 +1124,7 @@ function MenuSection() {
                       tiltMaxAngleY={10}
                       className="h-full"
                     >
-                      <div className="menu-card p-6 rounded-3xl h-full relative overflow-hidden group cursor-pointer flex flex-col">
+                      <div className="menu-card p-6 pt-0 rounded-3xl h-full relative overflow-hidden group cursor-pointer flex flex-col">
                         {item.popular && (
                           <div className="absolute top-4 left-4 bg-blue-400 text-white px-3 py-1 rounded-full text-sm font-bold z-10 flex items-center gap-1 shadow-lg">
                             <span>🔥</span>
@@ -1100,21 +1132,26 @@ function MenuSection() {
                           </div>
                         )}
                         
-                        {/* Large centered image */}
-                        {item.imageType === "photo" && (
-                          <div className="relative w-full flex justify-center items-center mb-4 -mt-32 flex-shrink-0">
-                            <div className="relative w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem]">
+                        {/* Large centered image or blank space */}
+                        <div className="relative w-full flex justify-center items-center mb-4 -mt-20 flex-shrink-0">
+                          <div className="relative w-80 h-56 md:w-96 md:h-72 lg:w-[28rem] lg:h-[18rem]">
+                            {item.image ? (
                               <img 
                                 src={item.image} 
                                 alt={item.name}
                                 className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-110 transition-transform duration-500"
                                 style={{
-                                  transform: `translate(${(menuCenterOffsets[item.name]?.x || 0) * 2}px, ${(menuCenterOffsets[item.name]?.y || 0) * 2}px)`
+                                  transform: `translate(${(menuCenterOffsets[item.name]?.x || 0) * 2}px, ${(menuCenterOffsets[item.name]?.y || 0) * 2}px) ${
+                                    (item.name === "Nutella Milkshake" || item.name === "Cookies N' Cream Milkshake") ? "scale(1.3)" : 
+                                    (item.name === "Buffalo Ranch Chicken Sandwich" || item.name === "Sweet Chili Chicken Sandwich") ? "scale(1.3)" : ""
+                                  }`
                                 }}
                               />
-                            </div>
+                            ) : (
+                              <div className="w-full h-full" />
+                            )}
                           </div>
-                        )}
+                        </div>
                         
                         <div className="flex flex-col flex-grow justify-between">
                           <div className="space-y-3">
@@ -1133,7 +1170,7 @@ function MenuSection() {
                           <div className="flex items-center justify-between mt-auto pt-4">
                             <p className="text-3xl font-black text-brand-green">{item.price}</p>
                             <motion.a
-                              href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+                              href={item.orderLink || "https://www.clover.com/online-ordering/steiny-bs-brooklyn"}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.05 }}
