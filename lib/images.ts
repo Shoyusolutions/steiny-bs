@@ -20,7 +20,7 @@ export const images = {
   },
   sides: {
     fries: `${S3_BASE_URL}/steiny/images/sides/fries.png`,
-    loadedBeefFries: `${S3_BASE_URL}/steiny/images/sides/loaded-beef-fries.png`,
+    loadedBeefFries: `${S3_BASE_URL}/steiny/images/sides/loaded-beef-fries.jpg`,
     loadedChickenFries: `${S3_BASE_URL}/steiny/images/sides/loaded-chicken-fries.png`,
     tenders: `${S3_BASE_URL}/steiny/images/sides/hot-tenders.png`,
     biscuit: `${S3_BASE_URL}/steiny/images/sides/buttermilk-biscuit.png`,
@@ -112,13 +112,13 @@ export const currentImages = {
     jalapenoCheeseBurger: images.burgers.jalapenoCheeseBurger, // ✓ Uploaded
   },
   chicken: {
-    nashvilleHot: placeholderImages.chicken.nashvilleHot, // Missing - using placeholder
+    nashvilleHot: images.chicken.nashvilleHot, // ✓ Uploaded
     buffaloRanch: images.chicken.buffaloRanch, // ✓ Uploaded
     sweetChili: images.chicken.sweetChili, // ✓ Uploaded
   },
   sides: {
     fries: placeholderImages.sides.fries, // Missing - using placeholder
-    loadedBeefFries: placeholderImages.sides.loadedBeefFries, // Missing - using placeholder
+    loadedBeefFries: images.sides.loadedBeefFries, // ✓ Uploaded
     loadedChickenFries: images.sides.loadedChickenFries, // ✓ Uploaded
     tenders: images.sides.tenders, // ✓ Uploaded
     biscuit: placeholderImages.sides.biscuit, // Missing - using placeholder

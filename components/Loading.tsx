@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Loading() {
   return (
-    <div className="fixed inset-0 bg-white z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -13,30 +14,47 @@ export default function Loading() {
           stiffness: 260,
           damping: 20,
         }}
-        className="relative"
+        className="mb-8"
       >
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-24 h-24 rounded-full border-4 border-gray-200 border-t-brand-green"
+        <Image
+          src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/branding/logo-primary.jpeg"
+          alt="Steiny B's Logo"
+          width={120}
+          height={120}
         />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <span className="text-4xl">🍔</span>
-        </motion.div>
       </motion.div>
+      
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="absolute bottom-1/3 text-brand-green font-bold text-xl"
+        transition={{ delay: 0.3 }}
+        className="text-brand-green font-bold text-xl mb-4"
       >
         Firing up the grill...
       </motion.p>
+      
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="flex gap-3"
+      >
+        <motion.div
+          animate={{ scale: [1, 1.5, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity, delay: 0 }}
+          className="w-4 h-4 bg-brand-green rounded-full"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.5, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+          className="w-4 h-4 bg-brand-green rounded-full"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.5, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
+          className="w-4 h-4 bg-brand-green rounded-full"
+        />
+      </motion.div>
     </div>
   );
 }

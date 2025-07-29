@@ -494,29 +494,29 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex justify-center gap-3 pt-10 pb-4 flex-shrink-0"
           >
-            {/* Square Image 1 - You can replace with actual images */}
+            {/* Square Image 1 - Natural Shot 4 (first) */}
             <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
               <img 
-                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-1.png"
-                alt="Natural Shot 1"
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-4.jpg"
+                alt="Natural Shot 4"
                 className="w-full h-full object-cover"
               />
             </div>
             
-            {/* Square Image 2 */}
+            {/* Square Image 2 - Natural Shot 5 (middle) */}
             <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
               <img 
-                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-3.png"
-                alt="Natural Shot 3"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            
-            {/* Square Image 3 */}
-            <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
-              <img 
-                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-5.png"
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-5.jpg"
                 alt="Natural Shot 5"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            {/* Square Image 3 - Natural Shot 3 (last) */}
+            <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
+              <img 
+                src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-3.jpg"
+                alt="Natural Shot 3"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -713,14 +713,14 @@ function AboutSection() {
       icon: "02",
       title: "PREMIUM INGREDIENTS",
       subtitle: "ALWAYS FRESH",
-      description: "HAND-SMASHED BEEF & CRISPY CHICKEN",
+      description: "HAND-SMASHED BEEF & HAND BREADED CHICKEN",
       accent: "text-red-600",
     },
     {
       icon: "03",
       title: "100% HALAL",
       subtitle: "CERTIFIED",
-      description: "PREMIUM INGREDIENTS YOU CAN TRUST",
+      description: "CERTIFIED BY THE HALAL FOOD COUNCIL USA AND HALAL TRANSACTIONS OF OMAHA",
       accent: "text-brand-green",
     },
     {
@@ -802,11 +802,14 @@ function AboutSection() {
                   <span className="font-bold"> crispy caramelized crust</span>.
                 </p>
                 <div className="bg-gray-50 border border-gray-200 p-4 mt-6">
-                  <p className="text-center text-gray-800 font-serif text-lg">
-                    <span className="font-bold">FRIES</span> • 
-                    <span className="font-bold"> HOT CHICKEN</span> • 
-                    <span className="font-bold"> SHAKES</span>
-                  </p>
+                  <div className="text-center text-gray-800 font-serif text-lg">
+                    <p className="font-bold mb-2">SMASHBURGERS</p>
+                    <p>
+                      <span className="font-bold">FRIES</span> • 
+                      <span className="font-bold"> HOT CHICKEN</span> • 
+                      <span className="font-bold"> SHAKES</span>
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -892,7 +895,7 @@ function MenuSection() {
     "Strawberry Milkshake": { x: 0, y: 25 },  // Added strawberry
     "3 Hot Tenders": { x: 0, y: 10 },
     "Fries": { x: 0, y: 20 },  // Added fries
-    "Loaded Beef Fries": { x: 0, y: 15 },  // Added loaded beef
+    "Loaded Beef Fries": { x: 0, y: 25 },  // Added loaded beef
     "Loaded Hot Chicken Fries": { x: 0, y: 15 },  // Added loaded chicken
   };
 
@@ -919,8 +922,16 @@ function MenuSection() {
         {
           name: "Jalapeño Cheese Burger",
           price: "$8.47",
-          description: "100% fresh beef burger served with pepper jack cheese, grilled onions, pickles and jalapeño cream sauce on a potato bun",
-          addon: "Make it a double - $11.47",
+          description: "100% fresh beef burger served with pepper jack cheese, grilled onions, pickles, jalapeños and jalapeño cream sauce on a potato bun",
+          image: currentImages.burgers.jalapenoCheeseBurger,
+          imageType: "photo",
+          spicy: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/X1WTD4T07PBWP",
+        },
+        {
+          name: "Double Jalapeño Cheese Burger",
+          price: "$11.47",
+          description: "Two 100% fresh beef patties served with pepper jack cheese, grilled onions, pickles, jalapeños and jalapeño cream sauce on a potato bun",
           image: currentImages.burgers.jalapenoCheeseBurger,
           imageType: "photo",
           spicy: true,
@@ -957,6 +968,16 @@ function MenuSection() {
           imageType: "photo",
           orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/F7Y4HXY465Z2M",
         },
+        {
+          name: "3 Hot Tenders",
+          price: "$7.49",
+          description: "With Texas Toast",
+          addon: "Mild, Medium, Hot, Extra Hot",
+          image: currentImages.sides.tenders,
+          imageType: "photo",
+          spicy: true,
+          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/0X6TSR781NHNY",
+        },
       ],
     },
     sides: {
@@ -968,6 +989,15 @@ function MenuSection() {
           addon: "Add Spice 49¢",
           orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/X6P772FGK9YC0",
         },
+        {
+          name: "Sauces",
+          price: "49¢",
+          description: "• House sauce\n• BBQ sauce\n• Ranch sauce\n• Jalapeño cream sauce\n• Sriracha mayo sauce\n• Sweet chili sauce\n• Buffalo honey sauce",
+        },
+      ],
+    },
+    loadedFries: {
+      items: [
         {
           name: "Loaded Beef Fries",
           price: "$11.47",
@@ -984,25 +1014,6 @@ function MenuSection() {
           imageType: "photo",
           spicy: true,
           orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/8H30TPDGX0CQJ",
-        },
-        {
-          name: "3 Hot Tenders",
-          price: "$7.49",
-          description: "With Texas Toast",
-          addon: "Mild, Medium, Hot, Extra Hot",
-          image: currentImages.sides.tenders,
-          imageType: "photo",
-          orderLink: "https://www.clover.com/online-ordering/steiny-bs-brooklyn/0X6TSR781NHNY",
-        },
-        {
-          name: "Butter Milk Biscuit",
-          price: "$2.47",
-          description: "Fluffy and buttery",
-        },
-        {
-          name: "Sauce",
-          price: "49¢",
-          description: "Extra sauce for your meal",
         },
       ],
     },
@@ -1034,37 +1045,65 @@ function MenuSection() {
     drinks: {
       items: [
         {
-          name: "Dr. Pepper",
+          name: "Coke",
           price: "$1.75",
-          description: "",
+          description: "Classic Coca-Cola",
           image: currentImages.drinks.softDrinks,
           imageType: "photo",
         },
         {
           name: "Diet Coke",
           price: "$1.75",
-          description: "",
-          image: currentImages.drinks.softDrinks,
-          imageType: "photo",
-        },
-        {
-          name: "Coca Cola",
-          price: "$1.75",
-          description: "",
-          image: currentImages.drinks.softDrinks,
-          imageType: "photo",
-        },
-        {
-          name: "Sprite",
-          price: "$1.75",
-          description: "",
+          description: "Zero calorie cola",
           image: currentImages.drinks.softDrinks,
           imageType: "photo",
         },
         {
           name: "Fanta",
           price: "$1.75",
-          description: "",
+          description: "Orange soda",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Sprite",
+          price: "$1.75",
+          description: "Lemon-lime soda",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Dr Pepper",
+          price: "$1.75",
+          description: "23 flavors",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Mtn Dew",
+          price: "$1.75",
+          description: "Citrus soda",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "7 Up",
+          price: "$1.75",
+          description: "Lemon-lime soda",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Water",
+          price: "$1.00",
+          description: "Bottled water",
+          image: currentImages.drinks.softDrinks,
+          imageType: "photo",
+        },
+        {
+          name: "Brisk Iced Tea",
+          price: "$1.75",
+          description: "Refreshing iced tea",
           image: currentImages.drinks.softDrinks,
           imageType: "photo",
         },
@@ -1109,7 +1148,7 @@ function MenuSection() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
               >
                 {category.items.map((item, index) => (
                   <motion.div
@@ -1143,7 +1182,9 @@ function MenuSection() {
                                 style={{
                                   transform: `translate(${(menuCenterOffsets[item.name]?.x || 0) * 2}px, ${(menuCenterOffsets[item.name]?.y || 0) * 2}px) ${
                                     (item.name === "Nutella Milkshake" || item.name === "Cookies N' Cream Milkshake") ? "scale(1.3)" : 
-                                    (item.name === "Buffalo Ranch Chicken Sandwich" || item.name === "Sweet Chili Chicken Sandwich") ? "scale(1.3)" : ""
+                                    (item.name === "Nashville Hot Chicken Sandwich" || item.name === "Buffalo Ranch Chicken Sandwich" || item.name === "Sweet Chili Chicken Sandwich") ? "scale(1.3)" : 
+                                    (item.name === "Loaded Beef Fries") ? "scale(0.5)" : 
+                                    (item.name === "Loaded Hot Chicken Fries") ? "scale(1.25)" : ""
                                   }`
                                 }}
                               />
@@ -1160,7 +1201,7 @@ function MenuSection() {
                                 {item.name}
                                 {item.spicy && <span className="ml-2">🌶️</span>}
                               </h3>
-                              <p className="text-gray-600">{item.description}</p>
+                              <p className="text-gray-600 whitespace-pre-line">{item.description}</p>
                               {item.addon && (
                                 <p className="text-sm text-brand-green font-medium mt-1">{item.addon}</p>
                               )}
@@ -1314,15 +1355,15 @@ function LocationSection() {
                 <div className="text-sm text-gray-600 space-y-1">
                   <div className="flex justify-between">
                     <span>Mon-Thu</span>
-                    <span className="font-medium">11am - 10pm</span>
+                    <span className="font-medium">12pm - 12am</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Fri-Sat</span>
-                    <span className="font-medium">11am - 11pm</span>
+                    <span className="font-medium">12pm - 1am</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Sunday</span>
-                    <span className="font-medium">12pm - 9pm</span>
+                    <span className="font-medium">12pm - 12am</span>
                   </div>
                 </div>
               </div>
@@ -1331,7 +1372,7 @@ function LocationSection() {
 
           {/* Contact Card */}
           <motion.a
-            href="tel:2125550123"
+            href="tel:3473659254"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -1341,7 +1382,7 @@ function LocationSection() {
               <Phone className="w-5 h-5 text-brand-green mr-3" />
               <div className="flex-1">
                 <p className="font-semibold text-gray-900">Call to Order</p>
-                <p className="text-sm text-gray-600 group-hover:text-brand-green transition-colors">(212) 555-0123</p>
+                <p className="text-sm text-gray-600 group-hover:text-brand-green transition-colors">(347) 365-9254</p>
               </div>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -1387,18 +1428,34 @@ function LocationSection() {
               <Clock className="w-8 h-8 text-brand-green mx-auto" />
             </div>
             <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">HOURS</h3>
-            <div className="text-gray-600 space-y-2">
-              <div>
-                <p className="font-medium text-gray-800">Mon - Thu</p>
-                <p>11:00 AM - 10:00 PM</p>
+            <div className="text-gray-600 space-y-1 text-sm">
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Tuesday</span>
+                <span>12 PM - 12 AM</span>
               </div>
-              <div>
-                <p className="font-medium text-gray-800">Fri - Sat</p>
-                <p>11:00 AM - 11:00 PM</p>
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Wednesday</span>
+                <span>12 PM - 12 AM</span>
               </div>
-              <div>
-                <p className="font-medium text-gray-800">Sunday</p>
-                <p>12:00 PM - 9:00 PM</p>
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Thursday</span>
+                <span>12 PM - 12 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Friday</span>
+                <span>12 PM - 1 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Saturday</span>
+                <span>12 PM - 1 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Sunday</span>
+                <span>12 PM - 12 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium text-gray-800">Monday</span>
+                <span>12 PM - 12 AM</span>
               </div>
             </div>
           </motion.div>
@@ -1416,10 +1473,10 @@ function LocationSection() {
             <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">CONTACT</h3>
             <p className="text-gray-600 mb-4">
               READY TO ORDER?<br />
-              <span className="text-2xl font-bold text-gray-900">(212) 555-0123</span>
+              <span className="text-2xl font-bold text-gray-900">(347) 365-9254</span>
             </p>
             <a
-              href="tel:2125550123"
+              href="tel:3473659254"
               className="inline-flex items-center text-brand-green hover:text-brand-dark font-medium transition-colors"
             >
               CALL NOW
@@ -1482,7 +1539,7 @@ function ContactSection() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.a>
             <motion.a
-              href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+              href="https://www.doordash.com/store/steiny-b's-brooklyn-35345307/75521748/"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}

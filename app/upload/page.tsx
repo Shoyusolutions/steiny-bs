@@ -107,11 +107,11 @@ const uploadCategories: Record<string, UploadCategory> = {
     path: "images/natural-shots-1x1",
     label: "Natural Shots 1:1",
     items: [
+      { fileName: "natural-shot-4", label: "Natural Shot 4" },
       { fileName: "natural-shot-1", label: "Natural Shot 1" },
       { fileName: "natural-shot-2", label: "Natural Shot 2" },
-      { fileName: "natural-shot-3", label: "Natural Shot 3" },
-      { fileName: "natural-shot-4", label: "Natural Shot 4" },
       { fileName: "natural-shot-5", label: "Natural Shot 5" },
+      { fileName: "natural-shot-3", label: "Natural Shot 3" },
     ],
   },
   "videos": {
