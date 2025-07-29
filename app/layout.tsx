@@ -46,14 +46,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: `${S3_BASE_URL}/steiny/images/burgers/cheese-burger.png`, sizes: '32x32', type: 'image/png' },
-      { url: `${S3_BASE_URL}/steiny/images/burgers/cheese-burger.png`, sizes: '16x16', type: 'image/png' },
+      { url: `${S3_BASE_URL}/steiny/images/burgers/jalapeno-cheese-burger.png`, sizes: '32x32', type: 'image/png' },
+      { url: `${S3_BASE_URL}/steiny/images/burgers/jalapeno-cheese-burger.png`, sizes: '16x16', type: 'image/png' },
     ],
     apple: [
-      { url: `${S3_BASE_URL}/steiny/images/burgers/cheese-burger.png`, sizes: '180x180', type: 'image/png' },
+      { url: `${S3_BASE_URL}/steiny/images/burgers/jalapeno-cheese-burger.png`, sizes: '180x180', type: 'image/png' },
     ],
     other: [
-      { rel: 'mask-icon', url: `${S3_BASE_URL}/steiny/images/burgers/cheese-burger.png` },
+      { rel: 'mask-icon', url: `${S3_BASE_URL}/steiny/images/burgers/jalapeno-cheese-burger.png` },
     ],
   },
   openGraph: {
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     siteName: "Steiny B's",
     images: [
       {
-        url: `${S3_BASE_URL}/steiny/images/branding/logo-primary.png`,
+        url: `${S3_BASE_URL}/steiny/images/branding/logo-white.png`,
         width: 1200,
         height: 630,
         alt: "Steiny B's Logo",
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Steiny B's - Smashed to Perfection",
     description: "Premium halal burgers & Nashville hot chicken. Voted NYC's Top Smashburgers 2025!",
-    images: [`${S3_BASE_URL}/steiny/images/branding/logo-primary.png`],
+    images: [`${S3_BASE_URL}/steiny/images/branding/logo-white.png`],
   },
 };
 
@@ -88,7 +88,7 @@ export default function RootLayout({
     '@type': 'Restaurant',
     name: "Steiny B's",
     description: "Premium halal burgers & Nashville hot chicken. Voted NYC's Top Smashburgers 2025!",
-    image: `${S3_BASE_URL}/steiny/images/branding/logo-primary.png`,
+    image: `${S3_BASE_URL}/steiny/images/branding/logo-white.png`,
     address: {
       '@type': 'PostalAddress',
       streetAddress: '942 Flatbush Ave',
@@ -97,27 +97,21 @@ export default function RootLayout({
       postalCode: '11226',
       addressCountry: 'US'
     },
-    telephone: '+12125550123',
+    telephone: '+13473659254',
     servesCuisine: 'American',
     priceRange: '$$',
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
-        opens: '11:00',
-        closes: '22:00'
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Sunday'],
+        opens: '12:00',
+        closes: '00:00'
       },
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Friday', 'Saturday'],
-        opens: '11:00',
-        closes: '23:00'
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Sunday',
         opens: '12:00',
-        closes: '21:00'
+        closes: '01:00'
       }
     ],
     menu: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://steiny-bs.vercel.app'}/#menu`,
