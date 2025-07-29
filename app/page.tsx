@@ -247,7 +247,7 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
               />
             </a>
             
-            {/* Menu in center */}
+            {/* Menu and Order button inline on right */}
             <div className="flex items-center gap-6 lg:gap-8">
               {["home", "about", "menu", "location", "contact"].map((item) => (
                 <motion.a
@@ -256,7 +256,7 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className={cn(
-                    "font-bold transition-colors uppercase tracking-wider",
+                    "font-bold transition-colors uppercase tracking-wider text-sm lg:text-base",
                     activeSection === item 
                       ? "text-brand-green" 
                       : "text-gray-700 hover:text-brand-green"
@@ -265,17 +265,17 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
                   {item}
                 </motion.a>
               ))}
+              
+              {/* Order button inline with nav items */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-white px-4 py-2 lg:px-6 lg:py-3 rounded-full font-bold shadow-lg transition-all text-sm lg:text-base uppercase tracking-wider"
+                style={{ backgroundColor: '#006738' }}
+              >
+                Order Online
+              </motion.button>
             </div>
-            
-            {/* Order button on right */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all"
-              style={{ backgroundColor: '#006738' }}
-            >
-              ORDER ONLINE
-            </motion.button>
           </div>
         </div>
       </nav>
@@ -588,7 +588,7 @@ function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 }}
-              className="text-lg text-gray-600 max-w-md"
+              className="text-lg text-gray-600 whitespace-nowrap"
             >
               100% HALAL • FRESH INGREDIENTS • MADE TO ORDER
             </motion.p>
@@ -635,6 +635,7 @@ function HeroSection() {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                 className="relative w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] md:w-[280px] md:h-[280px] lg:w-[350px] lg:h-[350px] z-20"
+                style={{ transform: 'translateY(40px)' }}
               >
                 <img 
                   src={currentImages.chicken.buffaloRanch}
@@ -781,8 +782,7 @@ function AboutSection() {
                   <span className="font-bold">1924</span> at the age of 16.
                 </p>
                 <p className="text-gray-700 leading-relaxed text-lg">
-                  <span className="font-bold">Steiny</span> is contributed to his name 'Sternberger' and 
-                  <span className="font-bold">B's</span> is contributed to our signature smash burgers.
+                  <span className="font-bold">Steiny</span> is contributed to his name 'Sternberger' and <span className="font-bold">B's</span> is contributed to our signature smash burgers.
                 </p>
               </motion.div>
               
@@ -1138,7 +1138,7 @@ function MenuSection() {
                   letterSpacing: '0.2em'
                 }}
               >
-                <span className="uppercase">{key}</span>
+                <span className="uppercase">{key === 'loadedFries' ? 'LOADED-FRIES' : key}</span>
               </Tabs.Trigger>
             ))}
           </Tabs.List>
