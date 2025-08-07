@@ -267,14 +267,17 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
               ))}
               
               {/* Order button inline with nav items */}
-              <motion.button
+              <motion.a
+                href="https://www.clover.com/online-ordering/steiny-bs-brooklyn"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="text-white px-4 py-2 lg:px-6 lg:py-3 rounded-full font-bold shadow-lg transition-all text-sm lg:text-base uppercase tracking-wider"
+                className="text-white px-4 py-2 lg:px-6 lg:py-3 rounded-full font-bold shadow-lg transition-all text-sm lg:text-base uppercase tracking-wider inline-block"
                 style={{ backgroundColor: '#006738' }}
               >
                 Order Online
-              </motion.button>
+              </motion.a>
             </div>
           </div>
         </div>
