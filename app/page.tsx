@@ -1882,13 +1882,15 @@ function FAQSection() {
             className="text-center mt-12"
           >
             <p className="text-gray-600 mb-4">Still have questions?</p>
-            <a
-              href="tel:3473659254"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green text-white font-bold rounded-full hover:bg-brand-dark transition-colors duration-300"
-            >
-              <Phone className="w-5 h-5" />
-              Call Us: (347) 365-9254
-            </a>
+            <div className="flex justify-center">
+              <a
+                href="tel:3473659254"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green text-black font-bold rounded-full hover:bg-brand-dark hover:text-black hover:font-bold transition-all duration-300"
+              >
+                <Phone className="w-5 h-5" />
+                Call Us: (347) 365-9254
+              </a>
+            </div>
           </motion.div>
         </motion.div>
       </div>
