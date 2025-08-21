@@ -207,12 +207,14 @@ export default function Home() {
       
       <main>
         {/* Hidden SEO Content for Better Ranking */}
-        <h1 className="sr-only">Steiny B&apos;s - Best Halal Burgers and Nashville Hot Chicken in Brooklyn NYC</h1>
+        <h1 className="sr-only">Steiny B&apos;s Smashburgers - Best Halal Smash Burgers in Flatbush Prospect Lefferts Gardens Brooklyn - Nashville Hot Chicken Tenders Fast Food</h1>
         <HeroSection />
         <AboutSection />
+        <ReviewsSection />
         <MenuSection />
         <LocationSection />
         <ContactSection />
+        <FAQSection />
       </main>
       
       <Footer />
@@ -242,7 +244,7 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
             <a href="#home" className="flex-shrink-0">
               <img 
                 src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/branding/logo-primary.jpeg"
-                alt="Steiny B's Logo"
+                alt="Steiny B's Smashburgers logo - Best Halal Burgers in Flatbush Brooklyn"
                 className="h-12 lg:h-14 w-auto"
               />
             </a>
@@ -293,7 +295,7 @@ function Navbar({ activeSection, isMenuOpen, setIsMenuOpen }: any) {
           <a href="#home" className="flex-shrink-0">
             <img 
               src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/branding/logo-primary.jpeg"
-              alt="Steiny B's Logo"
+              alt="Steiny B's Smashburgers logo - Best Halal Burgers in Flatbush Brooklyn"
               className="h-10 w-auto"
             />
           </a>
@@ -443,7 +445,7 @@ function HeroSection() {
               >
                 <img 
                   src={currentImages.chicken.buffaloRanch}
-                  alt="Buffalo Ranch Chicken"
+                  alt="Buffalo Ranch Chicken Sandwich - Halal Nashville Hot Chicken in Brooklyn"
                   className="w-full h-full object-contain"
                   style={{ 
                     filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2))',
@@ -461,7 +463,7 @@ function HeroSection() {
               >
                 <img 
                   src={currentImages.burgers.jalapenoCheeseBurger}
-                  alt="Jalapeño Cheese Burger"
+                  alt="Jalapeño Cheese Smash Burger - Best Halal Double Cheeseburger in Flatbush"
                   className="w-full h-full object-contain"
                   style={{ 
                     filter: 'drop-shadow(0 25px 40px rgba(0, 0, 0, 0.25))',
@@ -479,7 +481,7 @@ function HeroSection() {
               >
                 <img 
                   src={currentImages.drinks.vanillaShake}
-                  alt="Vanilla Shake"
+                  alt="Vanilla Milkshake - Premium Shakes at Steiny B's Brooklyn"
                   className="w-full h-full object-contain"
                   style={{ 
                     filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15))',
@@ -501,7 +503,7 @@ function HeroSection() {
             <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
               <img 
                 src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-4.jpg"
-                alt="Natural Shot 4"
+                alt="Steiny B's restaurant interior - Halal fast food in Prospect Lefferts Gardens"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -510,7 +512,7 @@ function HeroSection() {
             <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
               <img 
                 src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-5.jpg"
-                alt="Natural Shot 5"
+                alt="Fresh smash burgers cooking on grill - Made to order in Brooklyn"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -519,7 +521,7 @@ function HeroSection() {
             <div className="w-[28vw] h-[28vw] max-w-[120px] max-h-[120px] bg-gray-200 rounded-lg overflow-hidden shadow-md">
               <img 
                 src="https://general-public-image-buckets.s3.amazonaws.com/steiny/images/natural-shots-1x1/natural-shot-3.jpg"
-                alt="Natural Shot 3"
+                alt="Hand-breaded chicken tenders - Halal Nashville hot chicken Brooklyn"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -642,7 +644,7 @@ function HeroSection() {
               >
                 <img 
                   src={currentImages.chicken.buffaloRanch}
-                  alt="Buffalo Ranch Chicken"
+                  alt="Buffalo Ranch Chicken Sandwich - Halal Nashville Hot Chicken in Brooklyn"
                   className="w-full h-full object-contain scale-[2] sm:scale-[2.5] md:scale-[3]"
                   style={{ 
                     filter: 'drop-shadow(0 30px 50px rgba(0, 0, 0, 0.25))'
@@ -659,7 +661,7 @@ function HeroSection() {
               >
                 <img 
                   src={currentImages.burgers.jalapenoCheeseBurger}
-                  alt="Jalapeño Cheese Burger"
+                  alt="Jalapeño Cheese Smash Burger - Best Halal Double Cheeseburger in Flatbush"
                   className="w-full h-full object-contain scale-[2] sm:scale-[2.5] md:scale-[3]"
                   style={{ 
                     filter: 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.3))'
@@ -676,7 +678,7 @@ function HeroSection() {
               >
                 <img 
                   src={currentImages.drinks.vanillaShake}
-                  alt="Vanilla Shake"
+                  alt="Vanilla Milkshake - Premium Shakes at Steiny B's Brooklyn"
                   className="w-full h-full object-contain scale-[2] sm:scale-[2.5] md:scale-[3]"
                   style={{ 
                     filter: 'drop-shadow(0 25px 40px rgba(0, 0, 0, 0.2))'
@@ -694,6 +696,169 @@ function HeroSection() {
           </motion.div>
         </div>
         
+      </div>
+    </section>
+  );
+}
+
+function ReviewsSection() {
+  const [ref, inView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
+  
+  const [expandedReview, setExpandedReview] = useState<string | null>(null);
+
+  const reviews = [
+    {
+      name: "Gregory Lammy",
+      rating: 5,
+      date: "1 week ago",
+      text: "Great place !!! Finally a legit smash burger spot in Brooklyn !!! Clean, great staff , and even better food !!!",
+      reviewCount: "1 review",
+      photos: "4 photos",
+    },
+    {
+      name: "Massiel Melo",
+      rating: 5,
+      date: "1 week ago",
+      text: "Steiny B's smash burgers are packed with flavor and super juicy! I also loved their hot tenders and the sweet chili chicken sandwich, all paired with a side of order crispy fries. Freshly made and delicious. The service was excellent too.",
+      reviewCount: "3 reviews",
+    },
+    {
+      name: "dj FRiTZo",
+      rating: 5,
+      date: "3 weeks ago",
+      text: "Burger was tasty and cooked right, and the fries were big fresh cut. lots of sauces to choose from. I tried a chicken tender, and it was the juiciest I ever had. The guy was very cool and was happy to answer any questions I had about the food and the business, which is RARE in that neighborhood where customer service is pretty drab. affordable and delish , what more can you ask for!",
+      reviewCount: "1 review",
+    },
+  ];
+
+  return (
+    <section id="reviews" ref={ref} className="py-16 lg:py-24 bg-gray-50 relative overflow-hidden">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="mb-12"
+        >
+          {/* Header */}
+          <div className="text-center mb-12">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={inView ? { width: "100%" } : {}}
+              transition={{ duration: 0.8 }}
+              className="h-px bg-gray-300 max-w-lg mx-auto mb-8"
+            />
+            <h2 className="text-5xl lg:text-7xl font-serif text-gray-900 mb-2">
+              Customer Reviews
+            </h2>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+              ))}
+              <span className="text-lg font-bold text-gray-700 ml-2">5.0</span>
+            </div>
+            <p className="text-sm tracking-[0.3em] text-gray-500 font-medium">WHAT OUR CUSTOMERS SAY</p>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={inView ? { width: "100%" } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="h-px bg-gray-300 max-w-lg mx-auto mt-8"
+            />
+          </div>
+
+          {/* Reviews - Compact Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+            {reviews.map((review, index) => {
+              const isExpanded = expandedReview === review.name;
+              
+              return (
+                <motion.div
+                  key={review.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.2 + index * 0.1 }}
+                  className="bg-white border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  onClick={() => setExpandedReview(isExpanded ? null : review.name)}
+                >
+                  {/* Google Logo at Top */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                      </svg>
+                      <span className="text-xs font-medium text-gray-600">Google</span>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Review Header */}
+                  <div className="mb-2">
+                    <h3 className="font-bold text-sm text-gray-900">{review.name}</h3>
+                    <p className="text-xs text-gray-500">{review.date}</p>
+                  </div>
+
+                  {/* Review Text - Expandable */}
+                  <div>
+                    <p className={`text-gray-700 text-xs leading-relaxed ${!isExpanded ? 'line-clamp-3' : ''}`}>
+                      {review.text}
+                    </p>
+                    {review.text.length > 150 && (
+                      <button 
+                        className="text-brand-green text-xs font-medium mt-2 hover:underline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedReview(isExpanded ? null : review.name);
+                        }}
+                      >
+                        {isExpanded ? 'Show less' : 'Read more'}
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Call to Action */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5 }}
+            className="text-center mt-12"
+          >
+            <a
+              href="https://revdux.com/customer-rating/688dc52500cb34d041f33692"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 text-white font-bold rounded-full transition-all duration-300"
+              style={{ 
+                backgroundColor: '#006738',
+                border: '2px solid #006738'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.color = '#006738';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#006738';
+                e.currentTarget.style.color = 'white';
+              }}
+            >
+              <Star className="w-5 h-5" />
+              Leave a Review
+            </a>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
@@ -1130,7 +1295,24 @@ function MenuSection() {
         </motion.div>
 
         <Tabs.Root defaultValue="burgers" className="w-full">
-          <Tabs.List className="flex flex-wrap justify-center gap-4 mb-12">
+          {/* Mobile Category Navigation */}
+          <Tabs.List className="md:hidden mb-8 bg-white rounded-xl shadow-lg p-2">
+            <div className="flex overflow-x-auto scrollbar-hide gap-2 pb-2">
+              {Object.entries(menuData).map(([key, category]) => (
+                <Tabs.Trigger
+                  key={key}
+                  value={key}
+                  className="flex-shrink-0 px-5 py-3 font-semibold text-sm transition-all duration-300 bg-gray-50 text-gray-600 data-[state=active]:!bg-brand-green data-[state=active]:!text-black data-[state=active]:!font-bold rounded-lg whitespace-nowrap"
+                >
+                  <span className="uppercase tracking-wider">{key === 'loadedFries' ? 'LOADED FRIES' : key}</span>
+                </Tabs.Trigger>
+              ))}
+            </div>
+          </Tabs.List>
+          <p className="md:hidden text-center text-xs text-gray-500 -mt-4 mb-8">← Swipe to see more categories →</p>
+
+          {/* Desktop Category Navigation */}
+          <Tabs.List className="hidden md:flex flex-wrap justify-center gap-4 mb-12">
             {Object.entries(menuData).map(([key, category]) => (
               <Tabs.Trigger
                 key={key}
@@ -1571,6 +1753,143 @@ function ContactSection() {
               <Instagram className="w-6 h-6 text-gray-700" />
             </motion.a>
           </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function FAQSection() {
+  const [ref, inView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
+  
+  const [openQuestion, setOpenQuestion] = useState<string | null>(null);
+
+  const faqs = [
+    {
+      question: "Is your meat 100% halal certified?",
+      answer: "Yes! All our meat is 100% halal certified by the Halal Food Council USA and Halal Transactions of Omaha. We take pride in serving only the highest quality halal products."
+    },
+    {
+      question: "Do you offer delivery?",
+      answer: "Yes, we offer delivery through UberEats, DoorDash, Grubhub, and Postmates. You can also order directly for pickup through our website or by calling (347) 365-9254."
+    },
+    {
+      question: "What are your hours of operation?",
+      answer: "We're open Monday-Thursday & Sunday from 12 PM to 12 AM, and Friday-Saturday from 12 PM to 1 AM."
+    },
+    {
+      question: "Do you have vegetarian options?",
+      answer: "While we specialize in burgers and chicken, we do offer sides like fries and shakes. Please call ahead and we can discuss customizing options to meet your dietary needs."
+    },
+    {
+      question: "Can I place a large order for an event?",
+      answer: "Absolutely! We love catering events. Please call us at (347) 365-9254 at least 24 hours in advance for large orders so we can ensure everything is prepared fresh for your event."
+    },
+    {
+      question: "What makes your smash burgers special?",
+      answer: "Our burgers are made with 100% fresh, never frozen beef, hand-smashed on a hot grill to create a crispy caramelized crust while keeping the inside juicy. Every burger is made to order!"
+    },
+    {
+      question: "Do you have parking available?",
+      answer: "Street parking is available along Flatbush Avenue and surrounding streets. We're also easily accessible by public transportation."
+    },
+    {
+      question: "Are your chicken tenders spicy?",
+      answer: "You can choose your spice level! We offer Mild, Medium, Hot, and Extra Hot options for our Nashville hot chicken. Our regular tenders and other chicken sandwiches come with various flavor profiles to suit all tastes."
+    }
+  ];
+
+  return (
+    <section id="faq" ref={ref} className="py-16 lg:py-24 bg-white relative">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto"
+        >
+          {/* Header */}
+          <div className="text-center mb-12">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={inView ? { width: "100%" } : {}}
+              transition={{ duration: 0.8 }}
+              className="h-px bg-gray-300 max-w-lg mx-auto mb-8"
+            />
+            <h2 className="text-5xl lg:text-7xl font-serif text-gray-900 mb-2">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-sm tracking-[0.3em] text-gray-500 font-medium">EVERYTHING YOU NEED TO KNOW</p>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={inView ? { width: "100%" } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="h-px bg-gray-300 max-w-lg mx-auto mt-8"
+            />
+          </div>
+
+          {/* FAQ Items */}
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={faq.question}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.1 + index * 0.05 }}
+                className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300"
+              >
+                <button
+                  onClick={() => setOpenQuestion(openQuestion === faq.question ? null : faq.question)}
+                  className="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <h3 className="font-bold text-gray-900 pr-4">{faq.question}</h3>
+                  <motion.div
+                    animate={{ rotate: openQuestion === faq.question ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronDown className="w-5 h-5 text-brand-green" />
+                  </motion.div>
+                </button>
+                
+                <AnimatePresence>
+                  {openQuestion === faq.question && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                        <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Contact CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-12"
+          >
+            <p className="text-gray-600 mb-4">Still have questions?</p>
+            <a
+              href="tel:3473659254"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green text-white font-bold rounded-full hover:bg-brand-dark transition-colors duration-300"
+            >
+              <Phone className="w-5 h-5" />
+              Call Us: (347) 365-9254
+            </a>
+          </motion.div>
         </motion.div>
       </div>
     </section>

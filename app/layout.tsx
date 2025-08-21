@@ -16,9 +16,9 @@ const S3_BASE_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL || "https://genera
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://steiny-bs.vercel.app'),
-  title: "Steiny B's - Best Halal Burgers NYC | Smashburgers & Nashville Hot Chicken Brooklyn",
-  description: "Steiny B's serves NYC's best halal smashburgers & Nashville hot chicken in Brooklyn. Fresh, never frozen, 100% halal certified. Voted #1 Smashburgers 2025. Order now for pickup or delivery!",
-  keywords: "steiny b's, halal burgers nyc, best halal burgers brooklyn, smashburger brooklyn, nashville hot chicken nyc, halal restaurant brooklyn, halal smashburger, flatbush ave restaurants, best burgers nyc 2025, halal food brooklyn, steiny's burgers, premium halal burgers, best halal chicken sandwiches, brooklyn halal restaurants, nyc halal burgers delivery",
+  title: "Steiny B's Smashburgers Flatbush - Best Halal Smash Burger & Nashville Hot Chicken in Prospect Lefferts Gardens Brooklyn",
+  description: "Steiny B's Smashburgers in Flatbush & Prospect Lefferts Gardens serves NYC's best halal smash burgers, double cheeseburgers, Nashville hot chicken tenders & fast food. Fresh, never frozen, 100% halal. Voted #1 Smashburgers 2025. Order now!",
+  keywords: "steiny b's smashburgers, halal burgers flatbush, prospect lefferts gardens restaurants, smash burger brooklyn, double cheeseburger, chicken tenders, fast food flatbush, nashville hot chicken nyc, halal restaurant brooklyn, halal smashburger, flatbush ave restaurants, best burgers nyc 2025, halal food brooklyn, ahi burger, all american burger, au jus burger, avocado bacon burger, avocado burger, bacon avocado burger, bacon burger",
   authors: [{ name: "Steiny B's Restaurant" }],
   creator: "Steiny B's",
   publisher: "Steiny B's",
@@ -115,7 +115,50 @@ export default function RootLayout({
       }
     ],
     menu: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://steiny-bs.vercel.app'}/#menu`,
-    acceptsReservations: 'False'
+    acceptsReservations: 'False',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5.0',
+      reviewCount: '3'
+    },
+    review: [
+      {
+        '@type': 'Review',
+        author: {
+          '@type': 'Person',
+          name: 'Gregory Lammy'
+        },
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: '5'
+        },
+        reviewBody: 'Great place !!! Finally a legit smash burger spot in Brooklyn !!! Clean, great staff , and even better food !!!'
+      },
+      {
+        '@type': 'Review',
+        author: {
+          '@type': 'Person',
+          name: 'Massiel Melo'
+        },
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: '5'
+        },
+        reviewBody: 'Steiny B\'s smash burgers are packed with flavor and super juicy! I also loved their hot tenders and the sweet chili chicken sandwich, all paired with a side of order crispy fries. Freshly made and delicious. The service was excellent too.'
+      },
+      {
+        '@type': 'Review',
+        author: {
+          '@type': 'Person',
+          name: 'dj FRiTZo'
+        },
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: '5'
+        },
+        reviewBody: 'Burger was tasty and cooked right, and the fries were big fresh cut. lots of sauces to choose from. I tried a chicken tender, and it was the juiciest I ever had.'
+      }
+    ]
   }
 
   return (
